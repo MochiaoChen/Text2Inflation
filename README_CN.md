@@ -23,32 +23,31 @@
 
 ```text
 Text2Inflation/
-├── code/
-│   ├── nlp/                     # LLM 提取管道
-│   │   └── extract_inflation_narrative.py  # 核心提取脚本
-│   ├── models/
-│   │   ├── enhanced/            # NLP 增强模型
-│   │   │   ├── lasso_enhanced.py
-│   │   │   ├── elastic_net_enhanced.py
-│   │   │   ├── random_forest_enhanced.py
-│   │   │   ├── pca_enhanced.py
-│   │   │   ├── pls_enhanced.py
-│   │   │   └── comb_enhanced.py
-│   │   └── baseline/            # 传统基准模型
-│   │       ├── lasso.py
-│   │       ├── elastic_net.py
-│   │       ├── random_forest.py
-│   │       ├── pca.py
-│   │       ├── pls.py
-│   │       └── comb.py
-│   ├── utils/                   # 数据处理工具
-│   │   ├── data_utils.py        # 数据加载与预处理
-│   │   └── rename_reports.py    # 报告文件名标准化
-│   ├── data/
-│   │   ├── reports/             # 原始 PDF 报告目录
-│   │   ├── CPI_Data.csv         # 宏观经济数据
-│   │   └── nlp_features.csv     # 提取后的叙事特征
-│   └── outputs/                 # 模型输出图表与指标
+├── nlp/                     # LLM 提取管道
+│   └── extract_inflation_narrative.py  # 核心提取脚本
+├── models/
+│   ├── enhanced/            # NLP 增强模型
+│   │   ├── lasso_enhanced.py
+│   │   ├── elastic_net_enhanced.py
+│   │   ├── random_forest_enhanced.py
+│   │   ├── pca_enhanced.py
+│   │   ├── pls_enhanced.py
+│   │   └── comb_enhanced.py
+│   └── baseline/            # 传统基准模型
+│       ├── lasso.py
+│       ├── elastic_net.py
+│       ├── random_forest.py
+│       ├── pca.py
+│       ├── pls.py
+│       └── comb.py
+├── utils/                   # 数据处理工具
+│   ├── data_utils.py        # 数据加载与预处理
+│   └── rename_reports.py    # 报告文件名标准化
+├── data/
+│   ├── reports/             # 原始 PDF 报告目录
+│   ├── CPI_Data.csv         # 宏观经济数据
+│   └── nlp_features.csv     # 提取后的叙事特征
+├── outputs/                 # 模型输出图表与指标
 ├── requirements.txt
 └── README_CN.md
 ```
@@ -67,7 +66,7 @@ pip install -r requirements.txt
 
 ### 2. 配置 API Key
 
-在项目根目录 (`code/Text2Inflation/.env`) 创建环境配置文件，填入您的 Google Gemini API Key：
+在项目根目录 (`.env`) 创建环境配置文件，填入您的 Google Gemini API Key：
 
 ```bash
 GEMINI_API_KEY=your_gemini_api_key_here

@@ -23,33 +23,31 @@ By leveraging Large Language Models (LLM) to extract structured sentiment and po
 
 ```text
 Text2Inflation/
-├── code/
-│   ├── nlp/                     # LLM Extraction Pipeline
-│   │   └── extract_inflation_narrative.py
-│   ├── models/
-│   │   ├── enhanced/            # NLP-Enhanced Models
-│   │   │   ├── lasso_enhanced.py
-│   │   │   ├── elastic_net_enhanced.py
-│   │   │   ├── random_forest_enhanced.py
-│   │   │   ├── pca_enhanced.py
-│   │   │   ├── pls_enhanced.py
-│   │   │   └── comb_enhanced.py
-│   │   └── baseline/            # Standard Time-Series Models
-│   │       ├── lasso.py
-│   │       ├── elastic_net.py
-│   │       ├── random_forest.py
-│   │       ├── pca.py
-│   │       ├── pls.py
-│   │       └── comb.py
-│   ├── utils/                   # Data Processing Utilities
-│   │   ├── data_utils.py
-│   │   └── rename_reports.py
-│   │
-│   ├── data/
-│   │   ├── reports/             # Raw PDF Reports
-│   │   ├── CPI_Data.csv         # Macroeconomic Data
-│   │   └── nlp_features.csv     # Extracted Narrative Features
-│   └── outputs/                 # Forecast Plots & Metrics
+├── nlp/                     # LLM Extraction Pipeline
+│   └── extract_inflation_narrative.py
+├── models/
+│   ├── enhanced/            # NLP-Enhanced Models
+│   │   ├── lasso_enhanced.py
+│   │   ├── elastic_net_enhanced.py
+│   │   ├── random_forest_enhanced.py
+│   │   ├── pca_enhanced.py
+│   │   ├── pls_enhanced.py
+│   │   └── comb_enhanced.py
+│   └── baseline/            # Standard Time-Series Models
+│       ├── lasso.py
+│       ├── elastic_net.py
+│       ├── random_forest.py
+│       ├── pca.py
+│       ├── pls.py
+│       └── comb.py
+├── utils/                   # Data Processing Utilities
+│   ├── data_utils.py
+│   └── rename_reports.py
+├── data/
+│   ├── reports/             # Raw PDF Reports
+│   ├── CPI_Data.csv         # Macroeconomic Data
+│   └── nlp_features.csv     # Extracted Narrative Features
+├── outputs/                 # Forecast Plots & Metrics
 ├── requirements.txt
 └── README.md
 ```
@@ -68,7 +66,7 @@ pip install -r requirements.txt
 
 ### 2. Configuration
 
-Create a `.env` file in the project root (`code/Text2Inflation/.env`) to configure your LLM provider:
+Create a `.env` file in the project root (`.env`) to configure your LLM provider:
 
 ```bash
 GEMINI_API_KEY=your_gemini_api_key_here
