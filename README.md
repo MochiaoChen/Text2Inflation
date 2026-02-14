@@ -1,72 +1,137 @@
-# Text2Inflation
+# Text2Inflation: Quantifying Central Bank Communication for Inflation Forecasting
 
-Quantifying central bank monetary policy reports through NLP to forecast CPI inflation. A collection of research papers and implementation code.
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Gemini API](https://img.shields.io/badge/LLM-Gemini_2.0_Flash-orange)](https://deepmind.google/technologies/gemini/)
 
-## 📁 项目结构
+**Text2Inflation** is a research framework designed to quantify narrative information from the People's Bank of China (PBoC) *Monetary Policy Reports* and integrate these high-dimensional textual features into macroeconomic forecasting models. 
 
-```
+By leveraging Large Language Models (LLM) to extract structured sentiment and policy stance indicators, this project enhances traditional time-series models (e.g., LASSO, Random Forest) to improve CPI inflation forecasting accuracy.
+
+[**中文文档 (Chinese Documentation)**](./README_CN.md)
+
+---
+
+## ✨ Key Features
+
+- **LLM-Powered Narrative Extraction**: Utilizes **Google Gemini 2.0 Flash** to parse unstructured PDF reports into 10-dimensional structured data (e.g., Inflation Sentiment, Policy Stance, Attribution Weights).
+- **Enhanced Predictive Models**: Implements "Enhanced" versions of classic econometric models that fuse CPI time-series data with NLP-derived features.
+- **Robust Baseline**: Includes standard forecasting models (LASSO, Elastic Net, PCA-OLS, PLS, Random Forest) for rigorous performance benchmarking.
+- **Automated Pipeline**: End-to-end workflow from raw PDF renaming and parsing to feature engineering and model evaluation.
+
+## 📂 Repository Structure
+
+```text
 Text2Inflation/
-├── README.md                    # 项目说明
-├── requirements.txt             # Python 依赖
 ├── code/
-│   ├── utils/                   # 公共模块
-│   │   └── data_utils.py        # 数据加载、清洗、特征工程、评估等
-│   ├── models/                  # 预测模型
-│   │   ├── lasso.py             # LASSO 回归
-│   │   ├── elastic_net.py       # Elastic Net 回归
-│   │   ├── random_forest.py     # 随机森林回归
-│   │   ├── pca.py               # PCA 降维 + OLS
-│   │   ├── pls.py               # PLS 偏最小二乘回归
-│   │   └── comb.py              # 组合预测（多模型平均）
-│   ├── data/                    # 数据文件
-│   │   ├── CPI_Data.csv         # CPI 月度数据
-│   │   ├── GDP_Data.csv         # GDP 数据
-│   │   └── raw_data.xlsx        # 原始 Excel 数据
-│   ├── outputs/                 # 模型输出图表
-│   └── xlsx_to_csv.py           # Excel → CSV 转换工具
+│   ├── nlp/                     # LLM Extraction Pipeline
+│   │   └── extract_inflation_narrative.py
+│   ├── models/
+│   │   ├── enhanced/            # NLP-Enhanced Models
+│   │   │   ├── lasso_enhanced.py
+│   │   │   ├── elastic_net_enhanced.py
+│   │   │   ├── random_forest_enhanced.py
+│   │   │   ├── pca_enhanced.py
+│   │   │   ├── pls_enhanced.py
+│   │   │   └── comb_enhanced.py
+│   │   └── baseline/            # Standard Time-Series Models
+│   │       ├── lasso.py
+│   │       ├── elastic_net.py
+│   │       ├── random_forest.py
+│   │       ├── pca.py
+│   │       ├── pls.py
+│   │       └── comb.py
+│   ├── utils/                   # Data Processing Utilities
+│   │   ├── data_utils.py
+│   │   └── rename_reports.py
+│   │
+│   ├── data/
+│   │   ├── reports/             # Raw PDF Reports
+│   │   ├── CPI_Data.csv         # Macroeconomic Data
+│   │   └── nlp_features.csv     # Extracted Narrative Features
+│   └── outputs/                 # Forecast Plots & Metrics
+├── requirements.txt
+└── README.md
 ```
 
-## 🚀 快速开始
+## 🚀 Getting Started
 
-### 安装依赖
+### 1. Prerequisites
+
+Ensure you have Python 3.8+ installed.
 
 ```bash
+git clone https://github.com/yourusername/Text2Inflation.git
+cd Text2Inflation
 pip install -r requirements.txt
 ```
 
-### 运行单个模型
+### 2. Configuration
+
+Create a `.env` file in the project root (`code/Text2Inflation/.env`) to configure your LLM provider:
 
 ```bash
-cd code
-python -m models.lasso           # LASSO 回归
-python -m models.elastic_net     # Elastic Net
-python -m models.random_forest   # 随机森林
-python -m models.pca             # PCA + OLS
-python -m models.pls             # PLS 回归
-python -m models.comb            # 组合预测
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-### 数据预处理
+### 3. Data Preparation
+
+**Standardize Report Filenames:**
+If your PBoC reports are named in Chinese (e.g., `2023年第一季度...pdf`), run the normalization script to convert them to `YYYY-QN.pdf` format:
 
 ```bash
-cd code
-python xlsx_to_csv.py            # 将 Excel 原始数据转为 CSV
+python -m utils.rename_reports
 ```
 
-## 📊 模型说明
+### 4. Running the NLP Pipeline
 
-| 模型 | 方法 | 特点 |
-|------|------|------|
-| LASSO | L1 正则化线性回归 | 自动特征选择，稀疏系数 |
-| Elastic Net | L1+L2 混合正则化 | 兼顾特征选择与共线性处理 |
-| Random Forest | 集成决策树 | 捕捉非线性关系 |
-| PCA + OLS | 主成分降维 + 线性回归 | 高维数据降维 |
-| PLS | 偏最小二乘回归 | 同时考虑 X 和 Y 的协方差 |
-| Comb | 多模型简单平均 | 降低单一模型偏差 |
+Extract narrative features from all PDFs in `data/reports/`. This process generates `data/nlp_features.csv`.
 
-## 🔧 技术栈
+```bash
+python -m nlp.extract_inflation_narrative
+```
 
-- Python 3.8+
-- pandas, numpy — 数据处理
-- scikit-learn — 机器学习建模
-- matplotlib, seaborn — 数据可视化
+### 5. Training & Evaluation
+
+You can run both **Baseline** (CPI only) and **Enhanced** (CPI + NLP) models.
+
+**Run Enhanced Models:**
+```bash
+python -m models.enhanced.lasso_enhanced        # LASSO
+python -m models.enhanced.elastic_net_enhanced  # Elastic Net
+python -m models.enhanced.random_forest_enhanced # Random Forest
+python -m models.enhanced.pca_enhanced          # PCA + OLS
+python -m models.enhanced.pls_enhanced          # Partial Least Squares
+python -m models.enhanced.comb_enhanced         # Ensemble Model
+```
+
+**Run Baseline Models:**
+```bash
+python -m models.baseline.lasso
+python -m models.baseline.elastic_net
+python -m models.baseline.random_forest
+python -m models.baseline.pca
+python -m models.baseline.pls
+python -m models.baseline.comb
+```
+
+## 📊 Methodology
+
+### Narrative Dimensions
+The NLP pipeline extracts the following dimensions from each report:
+1.  **Inflation Sentiment**: Central bank's concern level regarding future price levels (-10 to 10).
+2.  **Policy Stance**: Dovish vs. Hawkish tone (-10 to 10).
+3.  **Attribution**: Weights assigned to Demand, Supply, External, and Monetary factors.
+4.  **Communication Features**: Ambiguity and Confidence scores.
+
+### Modeling Approach
+- **Baseline**: Autoregressive distributed lag models using historical CPI and macroeconomic indicators.
+- **Enhanced**: Incorporates the extracted narrative features as exogenous variables (forward-filled from quarterly to monthly frequency) to capture forward-looking component of inflation dynamics.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please submit a Pull Request or open an Issue for any bugs or feature suggestions.
+
+## 📄 License
+
+This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details.

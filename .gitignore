@@ -1,0 +1,41 @@
+# Bytes
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.env
+
+# IDE
+.idea/
+.vscode/
+
+# Project Data (Optional: exclude large raw data if needed, but keeping CSVs for now)
+# data/reports/*.pdf  <-- User might want to track this, but usually we ignore large binaries
+# data/nlp_results/*.json
+
+# Logs
+*.log
+
+# Mac
+.DS_Store
