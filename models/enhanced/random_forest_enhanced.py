@@ -11,9 +11,9 @@ from sklearn.ensemble import RandomForestRegressor
 
 # Adjust path to import utils from code root
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from utils.data_utils import (
+from data_utils import (
     setup_plot_style, load_enhanced_data, create_lag_features,
-    split_and_scale, evaluate_and_plot
+    split_and_scale, evaluate_and_plot, OUTPUT_DIR
 )
 
 
@@ -45,13 +45,16 @@ def run_random_forest_enhanced(file_path=None):
     # 特征重要性
     importances = pd.Series(rf_model.feature_importances_, index=feature_names)
     top_features = importances.sort_values(ascending=False).head(10)
-    print("\n    随机森林特征重要性 Top 10:")
+    print("\n 随机森林特征重要性 Top 10:")
     print(top_features)
 
+    # 输出结果
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     # 预测与评估
     y_pred = rf_model.predict(X_test_scaled)
-    evaluate_and_plot(y_test, y_pred, '随机森林 Enhanced', 'enhanced/3_random_forest_enhanced.png')
+    output_path = os.path.join(OUTPUT_DIR, '2.随机森林_enhanced.png')
+    evaluate_and_plot(y_test, y_pred, '随机森林_Enhanced', output_path)
 
 
 if __name__ == "__main__":

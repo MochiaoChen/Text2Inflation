@@ -13,9 +13,9 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
 # Adjust path to import utils from code root
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from utils.data_utils import (
+from data_utils import (
     setup_plot_style, load_enhanced_data, create_lag_features,
-    split_and_scale, evaluate_and_plot
+    split_and_scale, evaluate_and_plot, OUTPUT_DIR
 )
 
 
@@ -53,6 +53,8 @@ def run_pls_enhanced(file_path=None):
     pls_model = PLSRegression(n_components=optimal_n_components)
     pls_model.fit(X_train_scaled, y_train)
 
+    # 输出结果
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     # 预测与评估
     y_pred = pls_model.predict(X_test_scaled).flatten()
@@ -68,10 +70,11 @@ def run_pls_enhanced(file_path=None):
     rRMSE = rmse / rmse_avg
 
     print(f"\n    --- 基准对比 ---")
-    print(f"    基准历史平均 RMSE: {rmse_avg:.4f}")
-    print(f"    相对 RMSE (rRMSE): {rRMSE:.4f}")
+    print(f" 基准历史平均 RMSE: {rmse_avg:.4f}")
+    print(f" 相对 RMSE: {rRMSE:.4f}")
 
-    evaluate_and_plot(y_test, y_pred, 'PLS Enhanced', 'enhanced/5_pls_enhanced.png')
+    output_path = os.path.join(OUTPUT_DIR, '5.PLS_enhanced.png')
+    evaluate_and_plot(y_test, y_pred, 'PLS_Enhanced', output_path)
 
 
 if __name__ == "__main__":
