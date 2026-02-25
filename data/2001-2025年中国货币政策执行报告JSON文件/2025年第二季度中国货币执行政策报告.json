@@ -1,0 +1,20 @@
+{
+  "report_period": "2025-Q2",
+  "quantitative_metrics": {
+    "INF_Sentiment": -2.5,
+    "INF_Duration": 0.3,
+    "DRV_Demand": 8.5,
+    "DRV_Supply": 6.5,
+    "DRV_External": 4.0,
+    "DRV_Monetary": 1.5,
+    "POL_Tone": -9.0,
+    "POL_Priority": 8.5,
+    "TXT_Ambiguity": 2.0,
+    "TXT_Confidence": 7.5
+  },
+  "evidence_chain": {
+    "INF_Sentiment_Reasoning": "央行在‘宏观经济分析’中明确指出‘国内有效需求不足’，并提及行业存在‘低价过度竞争’（P.50），导致物价下行压力。虽然指出6月CPI由负转正（P.49），但强调‘把促进物价合理回升作为把握货币政策的重要考量’（P.4），表明当前物价水平低于合意区间，需政策介入‘再通胀’（Reflation）。",
+    "POL_Tone_Reasoning": "报告出现了极为罕见的措辞转变，在‘内容摘要’及‘货币政策趋势’中明确提出实施‘适度宽松的货币政策’（P.2, P.4），打破了长期以来‘稳健（Prudent）’的基调。同时强调‘强化逆周期调节’（P.2），并确认已实施降准降息（P.2），确立了极度宽松/鸽派的政策立场。"
+  },
+  "key_narrative_shifts": "本期报告出现了历史性的措辞范式转移（Regime Shift）。央行放弃了沿用多年的‘稳健的货币政策’（Prudent）表述，转而明确定义为‘适度宽松’（Moderately Loose），这是自2008年金融危机应对时期以来罕见的直白表述。同时，叙事逻辑从‘精准滴灌’转向‘逆周期调节’的总量刺激，将‘促进物价合理回升’（对抗通缩）提升至与稳增长同等甚至更高的优先级。"
+}

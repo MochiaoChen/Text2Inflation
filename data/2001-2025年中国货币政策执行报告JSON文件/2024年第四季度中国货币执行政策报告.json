@@ -1,0 +1,20 @@
+{
+"report_period": "2024-Q4",
+"quantitative_metrics": {
+"INF_Sentiment": -6.5,
+"INF_Duration": 0.4,
+"DRV_Demand": 9.0,
+"DRV_Supply": 3.0,
+"DRV_External": 6.0,
+"DRV_Monetary": 2.0,
+"POL_Tone": -8.5,
+"POL_Priority": 9.0,
+"TXT_Ambiguity": 3.0,
+"TXT_Confidence": 8.5
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "央行明确指出当前'国内需求不足'，且CPI涨幅处于低位（0.2%），PPI同比下降（-2.2%）。报告多次提及'促进物价合理回升'，表明当前物价水平低于合意区间，存在明显的通缩/低通胀担忧。",
+"POL_Tone_Reasoning": "报告在'下一阶段货币政策主要思路'中明确提出'实施好适度宽松的货币政策'（Page 4, Page 49）。这是继2008年金融危机后，央行罕见地在官方报告中正式将货币政策基调从'稳健'（Prudent）调整为'适度宽松'（Moderately Loose），并强调'加大逆周期调节力度'，标志着极度鸽派的政策转向。"
+},
+"key_narrative_shifts": "本期报告出现了历史性的措辞转变：1. 货币政策基调由长期坚持的'稳健'（Prudent）正式转变为'适度宽松'（Moderately Loose），这是十余年来最显著的鸽派信号；2. 首次将'促进物价合理回升'提升为'把握货币政策的重要考量'，确立了通胀目标（防止通缩）在当前政策框架中的核心优先地位；3. 删除了关于'不搞大水漫灌'的刻意强调，转而聚焦'加大逆周期调节力度'和'支持性立场'。"
+}

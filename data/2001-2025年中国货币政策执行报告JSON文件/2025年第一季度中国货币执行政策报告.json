@@ -1,0 +1,20 @@
+{
+  "report_period": "2025-Q1",
+  "quantitative_metrics": {
+    "INF_Sentiment": -8.5,
+    "INF_Duration": 0.85,
+    "DRV_Demand": 9.5,
+    "DRV_Supply": 8.0,
+    "DRV_External": 4.0,
+    "DRV_Monetary": 2.0,
+    "POL_Tone": -9.5,
+    "POL_Priority": 9.0,
+    "TXT_Ambiguity": 5.0,
+    "TXT_Confidence": 7.5
+  },
+  "evidence_chain": {
+    "INF_Sentiment_Reasoning": "报告明确指出当前面临物价下行压力，并在专栏6中罕见提出‘从以前的管高价转向管低价’的政策思路转变。原文提到‘把促进物价合理回升作为把握货币政策的重要考量’，且数据显示CPI同比下降0.1%，PPI同比下降2.3%，确认了通缩压力的现实性。",
+    "POL_Tone_Reasoning": "本期报告出现了极为罕见的措辞范式转移，将长期使用的‘稳健的货币政策’（Prudent）正式修改为‘适度宽松的货币政策’（Moderately Loose）（见第2页及第48页）。这是自2008年以来最强烈的宽松信号，明确强调‘强化逆周期调节’，并实施了降准降息。"
+  },
+  "key_narrative_shifts": "1. 货币政策基调发生历史性转变：正式放弃‘稳健’（Prudent）表述，转而采用‘适度宽松’（Moderately Loose），标志着政策进入全面刺激阶段。2. 通胀叙事重构：专栏6明确提出‘从以前的管高价转向管低价’，正式承认当前的主要矛盾是防范价格持续下行，将‘供强需弱’定义为结构性、持续性的矛盾，而非短期波动。"
+}

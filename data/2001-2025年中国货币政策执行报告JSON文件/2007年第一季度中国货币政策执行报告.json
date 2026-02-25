@@ -1,0 +1,20 @@
+{
+"report_period": "2007-Q1",
+"quantitative_metrics": {
+"INF_Sentiment": 6.5,
+"INF_Duration": 0.7,
+"DRV_Demand": 8.0,
+"DRV_Supply": 9.0,
+"DRV_External": 4.5,
+"DRV_Monetary": 7.5,
+"POL_Tone": 7.0,
+"POL_Priority": 8.5,
+"TXT_Ambiguity": 3.5,
+"TXT_Confidence": 8.0
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "报告明确指出'未来价格上行风险依然存在，价格走势值得关注'（P.42）。第一季度CPI同比上涨2.7%，且'新涨价因素'占比较高。央行特别提及'生产资料、投资品和消费品需求将继续增长'以及'粮食供求总体偏紧'构成上行压力。",
+"POL_Tone_Reasoning": "尽管名义上维持'稳健的货币政策'，但实际操作极度鹰派。文中强调'防止经济由偏快转为过热'（P.3, P.43）是核心基调。报告详述了Q1期间'四次上调存款准备金率'和'上调存贷款基准利率'（P.2），并明确下一阶段将'加大金融宏观调控力度'，属于典型的紧缩周期。"
+},
+"key_narrative_shifts": "从单纯关注'经济增长速度'明确转向'防止由偏快转为过热'（Fast to Overheated）的危机预警叙事。同时，在通胀归因中，显著增加了对'资源性产品价格改革'（要素成本）和'劳动力价格'（结构性因素）推高物价的讨论，暗示通胀可能具有结构性与持续性，而非仅仅是短期波动。"
+}

@@ -47,7 +47,7 @@ def run_lasso(file_path=None):
 
     # 预测与评估
     y_pred = lasso_model.predict(X_test_scaled)
-    evaluate_and_plot(y_test, y_pred, 'LASSO', '1_lasso.png')
+    evaluate_and_plot(y_test, y_pred, 'LASSO', 'baseline/1_lasso.png')
 
 
 if __name__ == "__main__":

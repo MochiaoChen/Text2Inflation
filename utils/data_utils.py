@@ -331,6 +331,8 @@ def evaluate_and_plot(y_test, y_pred, model_name, output_filename):
     plt.tight_layout()
 
     output_path = os.path.join(OUTPUT_DIR, output_filename)
+    # 确保输出子目录存在
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     plt.savefig(output_path)
     print(f"\n>>> 结果图表已保存为 '{output_path}'")
     plt.show()

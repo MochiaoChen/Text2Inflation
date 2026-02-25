@@ -68,7 +68,7 @@ def run_pls(file_path=None):
     print(f"    基准历史平均 RMSE: {rmse_avg:.4f}")
     print(f"    相对 RMSE (rRMSE): {rRMSE:.4f}")
 
-    evaluate_and_plot(y_test, y_pred, 'PLS', '5_pls.png')
+    evaluate_and_plot(y_test, y_pred, 'PLS', 'baseline/5_pls.png')
 
 
 if __name__ == "__main__":

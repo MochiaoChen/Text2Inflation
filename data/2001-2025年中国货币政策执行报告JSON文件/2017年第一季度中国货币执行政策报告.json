@@ -1,0 +1,20 @@
+{
+  "report_period": "2017-Q1",
+  "quantitative_metrics": {
+    "INF_Sentiment": 1.0,
+    "INF_Duration": 0.3,
+    "DRV_Demand": 6.0,
+    "DRV_Supply": 7.5,
+    "DRV_External": 7.0,
+    "DRV_Monetary": 3.0,
+    "POL_Tone": 6.5,
+    "POL_Priority": 7.0,
+    "TXT_Ambiguity": 4.0,
+    "TXT_Confidence": 7.5
+  },
+  "evidence_chain": {
+    "INF_Sentiment_Reasoning": "央行对物价整体判断为'温和'且'总体保持稳定'。报告指出'居民消费价格温和上涨'（CPI同比上涨1.4%），同时认为PPI与CPI的背离'有望收窄'。虽然提及GDP平减指数涨幅扩大和部分城市房地产热度，但总体认为通胀预期已出现'回调'（城镇储户问卷显示物价预期指数下降），因此处于合意区间，无通缩担忧，也无全面通胀恐慌，得分为1.0。",
+    "POL_Tone_Reasoning": "政策基调明显偏向紧缩/鹰派（去杠杆周期）。原文明确提出'调节好货币闸门'（PBoC鹰派信号核心词汇），强调货币政策'稳健中性'（neutral），并指出公开市场操作（OMO）和MLF中标利率'随行就市有所上行'（实质加息）。此外，报告大篇幅强调'去杠杆、抑泡沫、防风险'，并明确表示不宜将央行资产负债表变化简单类比国外，但整体流动性管理强调'削峰填谷'而非单纯注入，得分为6.5。"
+  },
+  "key_narrative_shifts": "1. 确立了'去杠杆'（Deleveraging）的主导地位，政策表述从单纯的'稳健'转向强调'稳健中性'（Neutral）与'调节好货币闸门'（Regulate the money floodgates），释放明确的边际收紧信号。2. 专栏1专门讨论'缩表'（Shrinking Balance Sheet），主动管理市场对于央行资产负债表收缩的恐慌预期，强调中国央行'缩表'与通过降准放松货币政策可能并行，通过技术性解释弱化了单纯数量指标的信号意义，转而更强调价格型调控（利率上行）。"
+}

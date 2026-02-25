@@ -1,0 +1,20 @@
+{
+"report_period": "2014-Q2",
+"quantitative_metrics": {
+"INF_Sentiment": 1.0,
+"INF_Duration": 0.4,
+"DRV_Demand": 8.0,
+"DRV_Supply": 6.0,
+"DRV_External": 2.0,
+"DRV_Monetary": 3.0,
+"POL_Tone": -3.0,
+"POL_Priority": 3.0,
+"TXT_Ambiguity": 6.0,
+"TXT_Confidence": 7.5
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "报告指出‘价格形势总体稳定’，CPI同比上涨2.3%（Page 2, 46）。但在展望部分（Page 49）明确警示‘物价对需求面变化总体上较为敏感’，且提及‘2013年就曾出现需求回暖后物价连续较快回升的现象’，表明央行虽然认为当前通胀受控，但对未来反弹持谨慎态度，并非完全无忧。",
+"POL_Tone_Reasoning": "报告多次提及‘两次实施定向降准’（Page 2, Box 2），显示明显的宽松操作。但同时强调‘保持定力’、坚持‘总量稳定、结构优化’（Page 3），并未通过全面降准或降息进行‘大水漫灌’。因此评分为-3.0（结构性宽松/定向宽松），而非极度宽松。"
+},
+"key_narrative_shifts": "首次显著提及‘新常态’（Page 3：‘经济运行呈现出阶段性特点和新常态’），标志着央行对经济增速换挡的容忍度提升。政策叙事重心从单纯的总量调节转向‘定向降准’（Targeted RRR Cuts）与‘结构优化’并重，强调在‘保持定力’（不强刺激）的前提下进行‘微调’。"
+}

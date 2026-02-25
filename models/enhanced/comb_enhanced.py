@@ -16,7 +16,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from utils.data_utils import (
     setup_plot_style, load_enhanced_data, create_lag_features,
-    split_and_scale, evaluate_and_plot, OUTPUT_DIR
+    split_and_scale, evaluate_and_plot
 )
 
 
@@ -90,9 +90,6 @@ def run_comb_enhanced(file_path=None):
         rmse_single = np.sqrt(mean_squared_error(y_test, predictions[model_name]))
         print(f"    - {model_name} RMSE: {rmse_single:.4f}")
 
-    # 确保输出目录存在
-    enhanced_output_dir = os.path.join(OUTPUT_DIR, 'enhanced')
-    os.makedirs(enhanced_output_dir, exist_ok=True)
 
     evaluate_and_plot(y_test, y_pred_comb.values, 'COMB (Mean) Enhanced', 'enhanced/6_comb_enhanced.png')
 

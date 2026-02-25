@@ -15,7 +15,7 @@ from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from utils.data_utils import (
     setup_plot_style, load_enhanced_data, create_lag_features,
-    split_and_scale, evaluate_and_plot, OUTPUT_DIR
+    split_and_scale, evaluate_and_plot
 )
 
 
@@ -53,9 +53,6 @@ def run_pls_enhanced(file_path=None):
     pls_model = PLSRegression(n_components=optimal_n_components)
     pls_model.fit(X_train_scaled, y_train)
 
-    # 确保输出目录存在
-    enhanced_output_dir = os.path.join(OUTPUT_DIR, 'enhanced')
-    os.makedirs(enhanced_output_dir, exist_ok=True)
 
     # 预测与评估
     y_pred = pls_model.predict(X_test_scaled).flatten()

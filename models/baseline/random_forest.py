@@ -49,7 +49,7 @@ def run_random_forest(file_path=None):
 
     # 预测与评估
     y_pred = rf_model.predict(X_test_scaled)
-    evaluate_and_plot(y_test, y_pred, '随机森林', '3_random_forest.png')
+    evaluate_and_plot(y_test, y_pred, '随机森林', 'baseline/3_random_forest.png')
 
 
 if __name__ == "__main__":

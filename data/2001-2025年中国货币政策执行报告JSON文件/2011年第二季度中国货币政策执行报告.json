@@ -1,0 +1,20 @@
+{
+"report_period": "2011-Q2",
+"quantitative_metrics": {
+"INF_Sentiment": 8.5,
+"INF_Duration": 0.8,
+"DRV_Demand": 7.0,
+"DRV_Supply": 8.5,
+"DRV_External": 6.0,
+"DRV_Monetary": 7.5,
+"POL_Tone": 9.0,
+"POL_Priority": 10.0,
+"TXT_Ambiguity": 4.0,
+"TXT_Confidence": 8.0
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "央行在'货币政策趋势'中明确指出'物价形势仍不乐观'（The price situation remains not optimistic），并强调'国内通胀预期依然较强，稳定物价的基础还不牢固'。报告提及CPI二季度同比上涨5.7%，且涨幅继续扩大，使用了'内在扩张和膨胀的压力依然较大'等强硬措辞。",
+"POL_Tone_Reasoning": "报告确立了极度紧缩的政策基调。原文强调'继续把稳定物价总水平作为宏观调控的首要任务'。在操作层面，回顾了上半年'6次上调存款准备金率'和'3次上调存贷款基准利率'的激进措施，并提出要'把好流动性总闸门'（keep the total liquidity gate tight），显示出明显的鹰派立场。"
+},
+"key_narrative_shifts": "从单纯的'通胀预期管理'转向了对'通胀成因结构化'的深度担忧。报告显著强调了劳动力成本和资源性产品价格上升的'长期性'（structural/long-term factors），指出这些因素将'在较长时间内构成价格上行的推力'，这标志着央行认为通胀已由短期食品冲击转化为结构性压力，从而确立了'稳定物价为首要任务'的绝对优先级。"
+}

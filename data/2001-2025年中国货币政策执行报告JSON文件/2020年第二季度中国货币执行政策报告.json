@@ -1,0 +1,20 @@
+{
+"report_period": "2020-Q2",
+"quantitative_metrics": {
+"INF_Sentiment": 0.0,
+"INF_Duration": 0.2,
+"DRV_Demand": 6.5,
+"DRV_Supply": 9.0,
+"DRV_External": 5.0,
+"DRV_Monetary": 2.0,
+"POL_Tone": -3.0,
+"POL_Priority": 3.0,
+"TXT_Ambiguity": 3.0,
+"TXT_Confidence": 8.5
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "报告第46页明确指出'物价涨幅总体下行，不存在长期通胀或通缩的基础'。央行认为CPI涨幅回落是基数效应和供给恢复的结果，总体处于'合理区间'，既未表现出对通缩的极度恐慌，也明确排除了通胀风险。",
+"POL_Tone_Reasoning": "报告第2页强调'稳健的货币政策更加灵活适度'，并提及'引导中期借贷便利和公开市场操作中标利率下行30个基点'，体现了宽松的实质操作。但同时在第4页提出'完善跨周期设计和调节'，并强调'总量政策适度'和'精准滴灌'，暗示已开始关注政策后遗症（如资金空转），拒绝'大水漫灌'，因此评分为温和宽松（-3.0）而非极度宽松。"
+},
+"key_narrative_shifts": "本期报告出现了极为关键的叙事框架转变：首次明确提出'完善跨周期设计和调节'（Cross-cyclical design and adjustment），这标志着央行政策思路从单纯应对疫情冲击的'逆周期调节'（Counter-cyclical）向兼顾长期稳健性的'跨周期'视角切换。报告暗示了应急性宽松政策将逐步回归常态化，强调政策的'直达性'而非单纯的总量扩张。"
+}

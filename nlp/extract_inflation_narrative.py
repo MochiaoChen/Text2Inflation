@@ -174,13 +174,19 @@ def process_single_report(pdf_path):
         file_upload = client.files.upload(file=pdf_path)
 
         # Wait for the file to be active
-        while file_upload.state.name == "PROCESSING":
+        while file_upload.state is not None and file_upload.state.name == "PROCESSING":
             time.sleep(2)
+            if file_upload.name is None:
+                raise Exception("File upload has no name, cannot poll status.")
             file_upload = client.files.get(name=file_upload.name)
 
-        if file_upload.state.name != "ACTIVE":
-            raise Exception(f"File upload failed with state: {file_upload.state.name}")
-        
+        if file_upload.state is None or file_upload.state.name != "ACTIVE":
+            state_name = file_upload.state.name if file_upload.state is not None else "UNKNOWN"
+            raise Exception(f"File upload failed with state: {state_name}")
+
+        if file_upload.uri is None:
+            raise Exception("File upload has no URI after becoming active.")
+
         # Generate content
         response = client.models.generate_content(
             model=MODEL_NAME,

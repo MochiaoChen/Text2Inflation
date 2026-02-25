@@ -1,0 +1,20 @@
+{
+"report_period": "2008-Q3",
+"quantitative_metrics": {
+"INF_Sentiment": -5.0,
+"INF_Duration": 0.3,
+"DRV_Demand": 8.5,
+"DRV_Supply": 7.0,
+"DRV_External": 9.5,
+"DRV_Monetary": 2.0,
+"POL_Tone": -9.0,
+"POL_Priority": 2.0,
+"TXT_Ambiguity": 3.0,
+"TXT_Confidence": 6.5
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "报告明确指出‘通货膨胀压力有所缓解’（p.23），并提出‘近期要防止通货紧缩，在长期要防止通货膨胀’（p.37 OCR页码/p.49 PDF页码）。强调国际大宗商品价格回落和国内PPI、CPI的高位回落，表明央行关注点已从高通胀迅速转向潜在的通缩风险。",
+"POL_Tone_Reasoning": "报告出现了PBoC历史上罕见的极度鸽派表述：‘实行适度宽松的货币政策’（p.II/p.3 PDF页码）。这是对之前‘从紧’政策的根本性逆转。具体的量化证据包括：‘取消了对商业银行信贷规划的约束’，‘连续两次下调存款准备金率’，‘三次下调存贷款基准利率’（p.I/p.2 PDF页码）。"
+},
+"key_narrative_shifts": "本期报告体现了PBoC历史上最剧烈的单一季度叙事重构。1. 政策基调从2008年初的‘防过热、防通胀’（双防）彻底转向‘适度宽松’（Moderately Loose），这是为了应对全球金融危机冲击。2. 归因叙事重心由‘国内需求过热’转向‘国际金融危机加剧’和‘外部需求收缩’。3. 取消‘信贷规划’（Credit Quotas）的表述标志着数量型控制工具的彻底放开，是极强的扩张信号。"
+}

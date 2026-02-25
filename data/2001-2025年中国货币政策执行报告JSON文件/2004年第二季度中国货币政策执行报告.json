@@ -1,0 +1,20 @@
+{
+  "report_period": "2004-Q2",
+  "quantitative_metrics": {
+    "INF_Sentiment": 8.0,
+    "INF_Duration": 0.4,
+    "DRV_Demand": 9.0,
+    "DRV_Supply": 8.5,
+    "DRV_External": 6.0,
+    "DRV_Monetary": 7.0,
+    "POL_Tone": 6.5,
+    "POL_Priority": 8.5,
+    "TXT_Ambiguity": 4.0,
+    "TXT_Confidence": 7.5
+  },
+  "evidence_chain": {
+    "INF_Sentiment_Reasoning": "报告摘要及第四部分明确指出'通货膨胀风险加大'（Page III, 22）。数据显示6月份CPI同比上涨高达5%，且'各类价格指数继续攀升'（Page 29）。预测部分指出'三季度消费物价同比上涨幅度可能还会有所扩大'（Page 34），显示出央行对当前物价上行压力的显著担忧。",
+    "POL_Tone_Reasoning": "政策基调明显偏向紧缩/抑制过热。报告强调'再次提高法定存款准备金率'（Page 5）以及'合理控制货币信贷总量'（Page 42）。虽然强调'适度'和'不急刹车'，但核心任务是'遏制投资需求过快增长'（Page 26）和防止通胀，属于典型的逆周期紧缩操作。"
+  },
+  "key_narrative_shifts": "本期报告显著引入了'理性预期'（Rational Expectations）的理论框架（专栏6），这是央行沟通中较早明确试图通过引导公众预期来管理通胀的尝试。同时，政策叙事重心从单纯的总量控制转向'区别对待、有控有保'（Page 7），即在紧缩总量的同时，强调对农业和中小企业的结构性支持，而非一刀切。"
+}

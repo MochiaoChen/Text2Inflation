@@ -51,7 +51,7 @@ def run_pca(file_path=None):
     plt.legend(loc='best')
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig(os.path.join(OUTPUT_DIR, '4_pca_scree.png'))
+    plt.savefig(os.path.join(OUTPUT_DIR, 'baseline/4_pca_scree.png'))
     plt.show()
 
     # 线性回归
@@ -61,7 +61,7 @@ def run_pca(file_path=None):
 
     # 预测与评估
     y_pred = lr_model.predict(X_test_pca)
-    evaluate_and_plot(y_test, y_pred, 'PCA + OLS', '4_pca.png')
+    evaluate_and_plot(y_test, y_pred, 'PCA + OLS', 'baseline/4_pca.png')
 
 
 if __name__ == "__main__":

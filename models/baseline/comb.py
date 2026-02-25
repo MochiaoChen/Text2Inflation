@@ -69,7 +69,7 @@ def run_comb(file_path=None):
         rmse_single = np.sqrt(mean_squared_error(y_test, predictions[model_name]))
         print(f"    - {model_name} RMSE: {rmse_single:.4f}")
 
-    evaluate_and_plot(y_test, y_pred_comb.values, 'COMB (Mean)', '6_comb.png')
+    evaluate_and_plot(y_test, y_pred_comb.values, 'COMB (Mean)', 'baseline/6_comb.png')
 
 
 if __name__ == "__main__":

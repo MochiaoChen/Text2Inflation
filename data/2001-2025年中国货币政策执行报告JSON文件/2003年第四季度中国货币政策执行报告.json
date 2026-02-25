@@ -1,0 +1,20 @@
+{
+"report_period": "2003-Q4",
+"quantitative_metrics": {
+"INF_Sentiment": 7.5,
+"INF_Duration": 0.7,
+"DRV_Demand": 9.0,
+"DRV_Supply": 8.0,
+"DRV_External": 4.0,
+"DRV_Monetary": 8.0,
+"POL_Tone": 6.5,
+"POL_Priority": 8.0,
+"TXT_Ambiguity": 4.0,
+"TXT_Confidence": 7.0
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "报告明确指出‘通货膨胀压力加大’（P4），并预测2004年CPI将上涨3%左右，且存在‘难以量化的价格上行压力’（P18）。央行特别提到原材料购进价格和工业品出厂价格（PPI）涨幅高于CPI，存在传导压力。",
+"POL_Tone_Reasoning": "尽管措辞仍为‘稳健的货币政策’，但实质操作已转向紧缩。报告强调‘适度控制货币信贷规模’，设定2004年M2增长目标为17%（低于2003年实际的19.6%），并多次提及要‘防止单向投资过热’和‘防止通货膨胀’（P4, P18）。引用了上调存款准备金率（紧缩信号）作为成功经验。"
+},
+"key_narrative_shifts": "从2003年上半年的‘克服非典影响、支持经济增长’全面转向‘防止经济过热和通货膨胀’。叙事焦点从‘总量增长’明显转向‘结构性矛盾’（如钢铁、水泥、电解铝等行业的盲目投资）。首次明确提出利用‘预调’和‘微调’来应对货币信贷过快增长的滞后效应。"
+}

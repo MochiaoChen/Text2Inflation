@@ -1,0 +1,20 @@
+{
+"report_period": "2004-Q4",
+"quantitative_metrics": {
+"INF_Sentiment": 6.5,
+"INF_Duration": 0.7,
+"DRV_Demand": 8.5,
+"DRV_Supply": 7.0,
+"DRV_External": 6.0,
+"DRV_Monetary": 3.0,
+"POL_Tone": 5.0,
+"POL_Priority": 8.0,
+"TXT_Ambiguity": 4.0,
+"TXT_Confidence": 7.5
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "报告明确指出'通货膨胀压力尚未根本缓解'（P44），且'PPI对CPI的滞后传导效应将逐步显现'（P44）。尽管粮价回落减少了CPI压力，但生产资料价格持续高位运行（PPI全年上涨6.1%，原材料购进上涨11.4%），存在明显的成本推动型通胀风险。",
+"POL_Tone_Reasoning": "央行重申'继续执行稳健的货币政策'（P44），强调'巩固宏观调控成果'（P43）。鉴于'投资反弹的压力依然存在'（P43）且'固定资产投资规模仍然偏大'（P40），政策基调实质上偏向紧缩（Hawkish），旨在防范过热反弹，而非刺激需求。文中多次提及'防止通货膨胀'和'防范系统性金融风险'。"
+},
+"key_narrative_shifts": "从单纯的'控制总量'转向'总量平衡与结构调整'并重；叙事重心从'抑制粮价引发的通胀'明显转移至'关注PPI向CPI的传导'及'公用事业服务价格调价压力'；首次强调运用'利率杠杆'（如2004年10月加息）和'价格工具'进行调控，标志着从行政指导向市场化价格调控的叙事过渡。"
+}

@@ -1,0 +1,20 @@
+{
+"report_period": "2008-Q4",
+"quantitative_metrics": {
+"INF_Sentiment": -8.5,
+"INF_Duration": 0.7,
+"DRV_Demand": 9.0,
+"DRV_Supply": 7.5,
+"DRV_External": 8.5,
+"DRV_Monetary": 2.0,
+"POL_Tone": -10.0,
+"POL_Priority": 2.0,
+"TXT_Ambiguity": 3.0,
+"TXT_Confidence": 7.5
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "报告明确指出价格形势已由'快速上涨'转为'急剧回落'（第41页）。在'宏观经济展望'中，央行使用了'通货紧缩风险较大'（risk of deflation is relatively large）这一极其罕见的直白表述，并强调'物价下行压力则相对较强'，预测下一季度物价下降的居民占比达到创纪录高位（第51页）。",
+"POL_Tone_Reasoning": "央行确认执行'适度宽松的货币政策'（moderately loose monetary policy），这是对之前'从紧'政策的根本性逆转。文中列举了极度宽松的操作：'五次下调存贷款基准利率'、'四次下调存款准备金率'，且最关键的是'明确取消对金融机构信贷规划的硬约束'（第3页、第8页），这标志着从数量控制转向全面放水。"
+},
+"key_narrative_shifts": "本期报告出现了PBoC历史上最剧烈的叙事重构。1. 首要目标大逆转：从年初的'防过热、防通胀'（双防）彻底切换为'保增长、扩内需'，将促进经济平稳较快发展作为金融宏观调控的'首要任务'。2. 通胀归因重构：通胀叙事从'结构性上涨'迅速转化为对'总需求萎缩'（Demand Contraction）和'产能过剩'（Capacity Overhang）导致的通缩担忧。3. 政策工具范式转换：正式宣布取消长期以来作为核心调控手段的'信贷规模硬约束'，转而鼓励'加大金融支持力度'，标志着'逆周期调节'（Counter-cyclical adjustment）力度的极大化。"
+}

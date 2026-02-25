@@ -1,0 +1,20 @@
+{
+"report_period": "2001-Q4",
+"quantitative_metrics": {
+"INF_Sentiment": -6.5,
+"INF_Duration": 0.7,
+"DRV_Demand": 3.0,
+"DRV_Supply": 8.0,
+"DRV_External": 8.5,
+"DRV_Monetary": 4.0,
+"POL_Tone": -6.0,
+"POL_Priority": 7.5,
+"TXT_Ambiguity": 3.0,
+"TXT_Confidence": 6.5
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "央行在报告明确指出'防止经济增长速度和物价进一步下滑是主要矛盾'（第10页），并预测2002年物价面临更大的持续下跌压力。文中多次提及'物价走势平稳'实际上是指低位运行（CPI 0.7%, RPI -0.6%），且强调供过于求的局面短期内不会根本扭转。",
+"POL_Tone_Reasoning": "政策基调虽然表述为'稳健'（Page 1），但实际操作和前瞻指引偏向宽松。报告提出'适当增加货币供应量'（Page 1）以及'进一步加大对经济发展的支持力度'（Page 10）。针对2002年的展望中，明确提出要承认货币流通速度减缓的事实，设定M2增长13%左右的目标以对抗紧缩压力，显示出明显的逆周期扩张倾向。"
+},
+"key_narrative_shifts": "从关注'软着陆'后的稳定，转变为高度关注'通缩压力'与'加入WTO后的外部冲击'。叙事重心由单纯的国内供需平衡，显著转向强调'供大于求'的结构性矛盾以及国际价格传导（输入性通缩）对国内物价的压制作用。"
+}

@@ -1,0 +1,20 @@
+{
+"report_period": "2009-Q4",
+"quantitative_metrics": {
+"INF_Sentiment": 6.5,
+"INF_Duration": 0.6,
+"DRV_Demand": 8.0,
+"DRV_Supply": 4.5,
+"DRV_External": 7.5,
+"DRV_Monetary": 8.5,
+"POL_Tone": -3.0,
+"POL_Priority": 6.0,
+"TXT_Ambiguity": 6.0,
+"TXT_Confidence": 7.5
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "央行明确指出'价格稳定的潜在风险有所加大'（Potential risks of price stability have increased）。报告提到CPI在年底已由负转正（11月结束连续9个月负增长，12月同比上涨1.7%）。最关键的量化证据是'未来物价预期指数为73.4%，较上季提高6.6个百分点'，表明央行对通胀预期高度警惕。",
+"POL_Tone_Reasoning": "尽管名义上仍坚持'适度宽松的货币政策'（Moderately loose monetary policy），但央行在操作层面显现出明显的'边际收紧'信号。报告多次强调'加强流动性管理'（Strengthen liquidity management）和'引导货币信贷总量合理增长'，并提出要处理好'保持经济平稳较快发展、调整经济结构和管理好通胀预期的关系'。相比前几个季度单纯强调'保增长'，本期报告明显转向'防风险'与'管预期'，基调虽然偏宽松（负值），但已大幅收敛。"
+},
+"key_narrative_shifts": "本期报告出现了显著的叙事重构：首次将'管理好通胀预期'（Managing inflation expectations）提升至与'保增长'、'调结构'并列的宏观调控核心目标位置。这标志着PBoC的关注点从单纯应对金融危机带来的'通缩压力'，正式转向应对复苏过程中的'通胀上行风险'。此外，报告从强调'提供充足流动性'转向'引导信贷均衡投放'和'防止季度、月度间波动过大'。"
+}

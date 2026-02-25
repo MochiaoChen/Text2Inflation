@@ -13,7 +13,7 @@ from sklearn.linear_model import LassoCV
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from utils.data_utils import (
     setup_plot_style, load_enhanced_data, create_lag_features,
-    split_and_scale, evaluate_and_plot, OUTPUT_DIR
+    split_and_scale, evaluate_and_plot
 )
 
 
@@ -46,10 +46,6 @@ def run_lasso_enhanced(file_path=None):
     else:
         print(important_feats)
 
-    # 确保输出目录存在
-    enhanced_output_dir = os.path.join(OUTPUT_DIR, 'enhanced')
-    os.makedirs(enhanced_output_dir, exist_ok=True)
-    
     # 预测与评估
     y_pred = lasso_model.predict(X_test_scaled)
     evaluate_and_plot(y_test, y_pred, 'LASSO Enhanced', 'enhanced/1_lasso_enhanced.png')

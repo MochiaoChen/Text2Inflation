@@ -31,9 +31,6 @@ def run_pca_enhanced(file_path=None):
     X_train_scaled, X_test_scaled, y_train, y_test, scaler, feature_names = \
         split_and_scale(data_final, target_col)
 
-    # 确保输出目录存在
-    enhanced_output_dir = os.path.join(OUTPUT_DIR, 'enhanced')
-    os.makedirs(enhanced_output_dir, exist_ok=True)
 
     # PCA 降维（保留 95% 方差）
     print("\n>>> PCA 降维...")
@@ -56,7 +53,7 @@ def run_pca_enhanced(file_path=None):
     plt.legend(loc='best')
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig(os.path.join(enhanced_output_dir, '4_pca_scree_enhanced.png'))
+    plt.savefig(os.path.join(OUTPUT_DIR, 'enhanced/4_pca_scree_enhanced.png'))
     # plt.show()
 
     # 线性回归

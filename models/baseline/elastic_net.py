@@ -54,7 +54,7 @@ def run_elastic_net(file_path=None):
 
     # 预测与评估
     y_pred = enet_model.predict(X_test_scaled)
-    evaluate_and_plot(y_test, y_pred, 'Elastic Net', '2_elastic_net.png')
+    evaluate_and_plot(y_test, y_pred, 'Elastic Net', 'baseline/2_elastic_net.png')
 
 
 if __name__ == "__main__":

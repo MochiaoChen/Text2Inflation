@@ -1,0 +1,20 @@
+{
+"report_period": "2004-Q3",
+"quantitative_metrics": {
+"INF_Sentiment": 7.5,
+"INF_Duration": 0.65,
+"DRV_Demand": 8.5,
+"DRV_Supply": 9.0,
+"DRV_External": 7.5,
+"DRV_Monetary": 4.0,
+"POL_Tone": 8.0,
+"POL_Priority": 9.0,
+"TXT_Ambiguity": 3.0,
+"TXT_Confidence": 7.5
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "央行明确指出'通货膨胀压力尚未得到明显缓解'（P30），并警告'原材料购进价格连续23个月保持正增长'，'通货膨胀已经开始从上游向下游传导'（P31）。虽然提及粮食价格回稳，但强调'物价上涨面临较大压力'（P28）及PPI向CPI传导的滞后效应。",
+"POL_Tone_Reasoning": "尽管名义上维持'稳健的货币政策'，但实质操作极度偏向紧缩。报告明确列举了'再次提高法定存款准备金率'（P4）和'上调金融机构存贷款基准利率'（P8，2004年10月29日加息）作为核心举措。文中多次强调'防止投资反弹'、'宏观调控处于关键阶段'，显示出强烈的紧缩意图。"
+},
+"key_narrative_shifts": "从单纯关注'粮食价格'引发的结构性上涨，显著转向担忧'PPI向CPI传导'的成本推动型通胀（Cost-push Inflation）。首次大量篇幅分析'国际原油价格'（P34-35）对国内物价的输入性影响，并明确承认上游价格上涨正导致下游价格普遍上涨的风险，而非此前强调的仅仅是食品因素。"
+}

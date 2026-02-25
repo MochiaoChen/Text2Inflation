@@ -1,0 +1,20 @@
+{
+"report_period": "2004-Q1",
+"quantitative_metrics": {
+"INF_Sentiment": 7.5,
+"INF_Duration": 0.3,
+"DRV_Demand": 9.5,
+"DRV_Supply": 7.0,
+"DRV_External": 6.0,
+"DRV_Monetary": 8.0,
+"POL_Tone": 6.0,
+"POL_Priority": 8.5,
+"TXT_Ambiguity": 3.0,
+"TXT_Confidence": 8.0
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "报告多次明确提及'通货膨胀压力加大'（第1、7、23、29页）。宏观分析部分指出'通货膨胀形势依旧不容乐观'（第36页），且指出价格传导机制正在显现，农业生产资料和工业原材料价格涨幅显著高于CPI，存在明显的成本推动压力。",
+"POL_Tone_Reasoning": "报告在第五部分明确提出货币政策取向转变为'适度从紧'（第38页），并指出要'防止急刹车'。实际上，央行已采取了'普遍提高存款准备金率0.5个百分点'（第6页）以及实施'差别存款准备金率制度'等明显的紧缩性操作，旨在控制货币信贷过快增长。"
+},
+"key_narrative_shifts": "本期报告最显著的叙事转变在于货币政策基调由之前的'稳健'明确转向战术上的'适度从紧'（Appropriately Tightening）。央行罕见地使用了'严峻'、'过热'（特别是针对钢铁、水泥、电解铝行业）等强硬词汇描述投资现状，并引入了'差别存款准备金率'这一结构性与总量结合的创新工具，标志着政策重心从支持增长完全转移至遏制投资过热和防范通胀。"
+}

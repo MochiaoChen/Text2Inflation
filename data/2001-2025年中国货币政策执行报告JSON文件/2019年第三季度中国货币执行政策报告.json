@@ -1,0 +1,20 @@
+{
+"report_period": "2019-Q3",
+"quantitative_metrics": {
+"INF_Sentiment": 4.5,
+"INF_Duration": 0.2,
+"DRV_Demand": 1.0,
+"DRV_Supply": 9.5,
+"DRV_External": 2.0,
+"DRV_Monetary": 0.5,
+"POL_Tone": -7.0,
+"POL_Priority": 6.5,
+"TXT_Ambiguity": 4.0,
+"TXT_Confidence": 8.5
+},
+"evidence_chain": {
+"INF_Sentiment_Reasoning": "央行一方面强调‘物价上涨结构性特征明显’（指猪肉价格上涨），并明确‘不存在持续通胀或通缩的基础’（Attempt to anchor expectations）；但另一方面，罕见地使用了‘需警惕通胀预期发散’（Guard against inflation expectation spreading）的强措辞，表明对CPI破3%后的心理防线高度关注，尽管核心通胀（非食品）疲软。",
+"POL_Tone_Reasoning": "报告明确提出‘加强逆周期调节’（Strengthen counter-cyclical adjustment），并提及‘全面降准’、‘定向降准’及‘LPR改革促进降低贷款实际利率’。虽然保留了‘坚决不搞大水漫灌’的常规表述，但实质操作和措辞重心均指向稳增长和降低融资成本，属于明显的宽松周期（Dovish）。"
+},
+"key_narrative_shifts": "本期报告最显著的叙事转变在于对‘CPI与PPI背离’的解释（专栏4）。央行从常规的总量通胀叙事转向了极致的‘结构性’归因（非洲猪瘟导致供给冲击），借此将高企的CPI（3.8%）定义为短期供给扰动，从而为在名义通胀上升背景下依然坚持‘逆周期调节’（降息降准）的宽松政策提供了理论合法性。此外，政策重心从单纯的‘去杠杆’明显转向‘稳增长’与‘降低实体融资成本’（LPR改革）。"
+}
