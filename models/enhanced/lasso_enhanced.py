@@ -1,8 +1,3 @@
-"""
-LASSO 回归模型预测通货膨胀率 (Enhanced with NLP Features)
-使用 LassoCV 自动选择正则化参数
-"""
-
 import sys
 import os
 import pandas as pd
@@ -11,9 +6,9 @@ from sklearn.linear_model import LassoCV
 
 # Adjust path to import utils from code root
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from utils.data_utils import (
+from data_utils import (
     setup_plot_style, load_enhanced_data, create_lag_features,
-    split_and_scale, evaluate_and_plot
+    split_and_scale, evaluate_and_plot, OUTPUT_DIR
 )
 
 
@@ -46,9 +41,14 @@ def run_lasso_enhanced(file_path=None):
     else:
         print(important_feats)
 
+    # 输出结果
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    
     # 预测与评估
     y_pred = lasso_model.predict(X_test_scaled)
-    evaluate_and_plot(y_test, y_pred, 'LASSO Enhanced', 'enhanced/1_lasso_enhanced.png')
+    output_path = os.path.join(OUTPUT_DIR, '1.LASSO_enhanced.png')
+    evaluate_and_plot(y_test, y_pred, 'LASSO_Enhanced', output_path)
+
 
 
 if __name__ == "__main__":

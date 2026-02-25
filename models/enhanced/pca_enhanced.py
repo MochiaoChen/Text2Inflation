@@ -12,7 +12,7 @@ from sklearn.linear_model import LinearRegression
 
 # Adjust path to import utils from code root
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from utils.data_utils import (
+from data_utils import (
     setup_plot_style, load_enhanced_data, create_lag_features,
     split_and_scale, evaluate_and_plot, OUTPUT_DIR
 )
@@ -31,6 +31,8 @@ def run_pca_enhanced(file_path=None):
     X_train_scaled, X_test_scaled, y_train, y_test, scaler, feature_names = \
         split_and_scale(data_final, target_col)
 
+    # 输出结果
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     # PCA 降维（保留 95% 方差）
     print("\n>>> PCA 降维...")
@@ -49,12 +51,11 @@ def run_pca_enhanced(file_path=None):
              where='mid', color='red', label='累积解释方差')
     plt.ylabel('解释方差比率')
     plt.xlabel('主成分')
-    plt.title('PCA 碎石图：成分对信息的保留程度 (Enhanced)')
+    plt.title('PCA 碎石图：成分对信息的保留程度（Enhanced）')
     plt.legend(loc='best')
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig(os.path.join(OUTPUT_DIR, 'enhanced/4_pca_scree_enhanced.png'))
-    # plt.show()
+    plt.show()
 
     # 线性回归
     print("\n>>> 模型训练 (PCA + OLS Enhanced)...")
@@ -63,7 +64,8 @@ def run_pca_enhanced(file_path=None):
 
     # 预测与评估
     y_pred = lr_model.predict(X_test_pca)
-    evaluate_and_plot(y_test, y_pred, 'PCA + OLS Enhanced', 'enhanced/4_pca_enhanced.png')
+    output_path = os.path.join(OUTPUT_DIR, '4.PCA_enhanced.png')
+    evaluate_and_plot(y_test, y_pred, 'PCA_Enhanced', output_path)
 
 
 if __name__ == "__main__":

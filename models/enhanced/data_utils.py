@@ -17,16 +17,8 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 import seaborn as sns
 
-
-# ===================== 路径常量 =====================
-
-# 获取 code/ 目录的绝对路径（本文件位于 code/utils/）
-_CODE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(_CODE_DIR, 'data')
-OUTPUT_DIR = os.path.join(_CODE_DIR, 'outputs')
-
-# 默认数据文件路径
-DEFAULT_CPI_PATH = os.path.join(DATA_DIR, "../../data/CPI_Data.csv")
+OUTPUT_DIR = "../../outputs/enhanced"    # 输出路径
+DEFAULT_CPI_PATH = "../../data/CPI_Data.csv"    # 数据集路径
 
 
 # ===================== 绘图配置 =====================
@@ -41,25 +33,6 @@ def setup_plot_style():
 # ===================== 数据加载与清洗 =====================
 
 def load_and_clean_data(file_path=None, stationarize=True):
-    """
-    读取 CPI 数据 CSV，执行清洗和（可选的）平稳化处理。
-
-    Parameters
-    ----------
-    file_path : str, optional
-        CSV 文件路径，默认使用 data/CPI_Data.csv
-    stationarize : bool, default True
-        是否将 CPI 指数转换为环比通胀率，并对特征做增长率变换。
-        - True:  返回的目标列为 'Inflation'（环比增长率 %）
-        - False: 返回的目标列为 'CPI'（原始指数值）
-
-    Returns
-    -------
-    df : pd.DataFrame
-        处理后的 DataFrame（DatetimeIndex），包含目标列和特征列
-    target_col : str
-        目标列名（'Inflation' 或 'CPI'）
-    """
     if file_path is None:
         file_path = DEFAULT_CPI_PATH
 
@@ -113,6 +86,7 @@ def load_and_clean_data(file_path=None, stationarize=True):
         target_col = target_col_raw
         df.rename(columns={target_col_raw: 'CPI'}, inplace=True)
         target_col = 'CPI'
+    return df, target_col
 
 
 def load_enhanced_data(file_path=None, nlp_file_path=None, stationarize=True):
@@ -137,7 +111,7 @@ def load_enhanced_data(file_path=None, nlp_file_path=None, stationarize=True):
         目标列名
     """
     if nlp_file_path is None:
-        nlp_file_path = os.path.join(DATA_DIR, 'nlp_features.csv')
+        nlp_file_path = "../../data/Policy_Data.csv"
 
     # 1. 加载基础数据
     df, target_col = load_and_clean_data(file_path, stationarize)
@@ -150,14 +124,6 @@ def load_enhanced_data(file_path=None, nlp_file_path=None, stationarize=True):
     print(f"\n>>> 加载 NLP 增强特征: {nlp_file_path}")
     nlp_df = pd.read_csv(nlp_file_path)
     
-    # 解析 report_period (YYYY-QN) 到日期
-    # 将季度末作为特征发布的日期，或者季度初？
-    # PBoC 报告通常在季度结束后 1-2 个月发布（如 Q1 报告在 5 月发布）。
-    # 为了避免未来函数，我们假设特征在报告发布月份生效。
-    # 简化处理：YYYY-Q1 -> YYYY-05-01, Q2 -> 08-01, Q3 -> 11-01, Q4 -> Next Year-02-01
-    # 实际上，更为稳健的做法是：
-    # Q1 (Jan-Mar) 的数据 -> 此处对应 Q1 报告 -> Q1 报告发布于 Q2 中期 (May) -> 只能用于预测 Q2 后半段及以后
-    # 这里我们采用简单映射，将 NLP 特征映射到该季度末的下一个月，然后 ffill
     
     quarter_map = {
         'Q1': '-04-01', # Q1 结束是 3.31，这里近似为 4.1
@@ -303,23 +269,22 @@ def evaluate_and_plot(y_test, y_pred, model_name, output_filename):
     r2 = r2_score(y_test, y_pred)
 
     print(f"\n>>> 评估结果 ({model_name}):")
-    print(f"    RMSE (均方根误差): {rmse:.4f}")
-    print(f"    MAE  (平均绝对误差): {mae:.4f}")
-    print(f"    R²   (拟合优度): {r2:.4f}")
+    print(f"RMSE：{rmse:.4f}")
+    print(f"MAE：{mae:.4f}")
+    print(f"R²：{r2:.4f}")
 
     plt.figure(figsize=(12, 6))
     plt.plot(y_test.index, y_test.values, label='真实值', color='blue', linewidth=2)
     plt.plot(y_test.index, y_pred, label=f'预测值', color='red', linestyle='--', linewidth=2)
     plt.title(f'通货膨胀率预测结果对比（{model_name}）', fontsize=16)
     plt.xlabel('日期', fontsize=12)
-    plt.ylabel('CPI 环比增长率 (%)', fontsize=12)
+    plt.ylabel('CPI 环比增长率（%）', fontsize=12)
     plt.legend()
     plt.grid(True, which='both', linestyle='--', alpha=0.7)
     plt.tight_layout()
 
-    output_path = os.path.join(OUTPUT_DIR, output_filename)
-    plt.savefig(output_path)
-    print(f"\n>>> 结果图表已保存为 '{output_path}'")
+    plt.savefig(output_filename)
+    print(f"\n>>> 结果图表已保存为 '{output_filename}'")
     plt.show()
 
     return {'rmse': rmse, 'mae': mae, 'r2': r2}

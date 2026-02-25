@@ -11,9 +11,9 @@ from sklearn.linear_model import ElasticNetCV
 
 # Adjust path to import utils from code root
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from utils.data_utils import (
+from data_utils import (
     setup_plot_style, load_enhanced_data, create_lag_features,
-    split_and_scale, evaluate_and_plot
+    split_and_scale, evaluate_and_plot, OUTPUT_DIR
 )
 
 
@@ -53,10 +53,13 @@ def run_elastic_net_enhanced(file_path=None):
     else:
         print(important_feats)
 
+    # 输出结果
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     # 预测与评估
     y_pred = enet_model.predict(X_test_scaled)
-    evaluate_and_plot(y_test, y_pred, 'Elastic Net Enhanced', 'enhanced/2_elastic_net_enhanced.png')
+    output_path = os.path.join(OUTPUT_DIR, '3.Elastic_Net_enhanced.png')
+    evaluate_and_plot(y_test, y_pred, 'Elastic Net_Enhanced', output_path)
 
 
 if __name__ == "__main__":
