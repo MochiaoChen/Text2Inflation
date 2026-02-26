@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Gemini API](https://img.shields.io/badge/LLM-Gemini_2.0_Flash-orange)](https://deepmind.google/technologies/gemini/)
 
-**Text2Inflation** 是一个用于量化中国人民银行（PBoC）《货币政策执行报告》叙事信息的开源研究框架。本项目通过构建结构化 NLP 特征并将其融入经典宏观经济预测模型，旨在提升对中国 CPI 通胀率的预测精度。
+**Text2Inflation** 是一个用于量化中国人民银行（PBoC）《货币政策执行报告》叙事信息的开源研究框架。本项目通过构建结构化 NLP 特征并将其融入经典宏观经济预测模型，旨在提升对中国 **CPI 通胀增长率**的预测精度。
 
 本项目通过先进的大语言模型（LLM）技术，从非结构化的央行报告中提取关于通胀情绪、政策立场及归因分析的**高维结构化指标**，为货币政策传导机制研究和宏观预测提供了新的量化视角。
 
@@ -15,7 +15,7 @@
 ## ✨ 核心特性
 
 - **LLM 驱动的叙事提取**: 利用 **Google Gemini 2.0 Flash** 强大的理解能力，自动化解析 PDF 报告，提取包括通胀预期、政策基调、不确定性指数等在内的 10 维结构化数据。
-- **增强型预测模型 (Enhanced Models)**: 提供了一整套融合了 NLP 特征的增强型计量模型（LASSO, Elastic Net, Random Forest 等），显著区别于传统的纯时间序列基准模型。
+- **增强型预测模型 (Enhanced Models)**: 提供了一整套融合了 NLP 特征的增强型计量模型（LASSO, Elastic Net, Random Forest 等），用于预测 CPI 增长率，显著区别于传统的纯时间序列基准模型。
 - **完善的基准测试 (Robust Baseline)**: 内置标准的时间序列预测模型作为对照组，确保模型评估的严谨性。
 - **全流程自动化**: 从 PDF 报告的智能重命名、文本解析，到特征工程与模型评估的端到端流水线。
 
@@ -48,6 +48,8 @@ Text2Inflation/
 │   ├── CPI_Data.csv         # 宏观经济数据
 │   └── nlp_features.csv     # 提取后的叙事特征
 ├── outputs/                 # 模型输出图表与指标
+│   ├── cpi_growth_baseline/  # 基准模型结果
+│   └── cpi_growth_enhanced/  # 增强模型结果
 ├── requirements.txt
 └── README_CN.md
 ```

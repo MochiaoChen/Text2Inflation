@@ -6,7 +6,7 @@
 
 **Text2Inflation** is a research framework designed to quantify narrative information from the People's Bank of China (PBoC) *Monetary Policy Reports* and integrate these high-dimensional textual features into macroeconomic forecasting models.
 
-By leveraging Large Language Models (LLM) to extract structured sentiment and policy stance indicators, this project enhances traditional time-series models (e.g., LASSO, Random Forest) to improve CPI inflation forecasting accuracy.
+By leveraging Large Language Models (LLM) to extract structured sentiment and policy stance indicators, this project enhances traditional time-series models (e.g., LASSO, Random Forest) to improve **CPI growth rate** forecasting accuracy.
 
 [**中文文档 (Chinese Documentation)**](./README_CN.md)
 
@@ -15,7 +15,7 @@ By leveraging Large Language Models (LLM) to extract structured sentiment and po
 ## ✨ Key Features
 
 - **LLM-Powered Narrative Extraction**: Utilizes **Google Gemini 2.0 Flash** to parse unstructured PDF reports into 10-dimensional structured data (e.g., Inflation Sentiment, Policy Stance, Attribution Weights).
-- **Enhanced Predictive Models**: Implements "Enhanced" versions of classic econometric models that fuse CPI time-series data with NLP-derived features.
+- **Enhanced Predictive Models**: Implements "Enhanced" versions of classic econometric models that fuse CPI time-series data with NLP-derived features to predict CPI growth rate.
 - **Robust Baseline**: Includes standard forecasting models (LASSO, Elastic Net, PCA-OLS, PLS, Random Forest) for rigorous performance benchmarking.
 - **Automated Pipeline**: End-to-end workflow from raw PDF renaming and parsing to feature engineering and model evaluation.
 
@@ -48,6 +48,8 @@ Text2Inflation/
 │   ├── CPI_Data.csv         # Macroeconomic Data
 │   └── nlp_features.csv     # Extracted Narrative Features
 ├── outputs/                 # Forecast Plots & Metrics
+│   ├── cpi_growth_baseline/  # Baseline model results
+│   └── cpi_growth_enhanced/  # NLP-enhanced model results
 ├── requirements.txt
 └── README.md
 ```
