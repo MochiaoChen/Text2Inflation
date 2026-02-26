@@ -259,6 +259,28 @@ def split_and_scale(data_final, target_col, ratio=0.8):
 
 
 # ===================== 评估与可视化 =====================
+def save_metrics_to_csv(model_name, rmse, mae, r2, csv_path):
+    # 确保CSV所在目录存在（避免路径不存在报错）
+    csv_dir = os.path.dirname(csv_path)
+    if csv_dir and not os.path.exists(csv_dir):
+        os.makedirs(csv_dir, exist_ok=True)
+
+    # 构造指标数据
+    metrics_data = {
+        '模型名称': [model_name],
+        'RMSE': [round(rmse, 4)],
+        'MAE': [round(mae, 4)],
+        'R²': [round(r2, 4)]
+    }
+    df_metrics = pd.DataFrame(metrics_data)
+
+    # 写入CSV：文件不存在则新建（带表头），存在则追加（不带表头）
+    if os.path.exists(csv_path):
+        df_metrics.to_csv(csv_path, mode='a', header=False, index=False, encoding='utf-8')
+    else:
+        df_metrics.to_csv(csv_path, mode='w', header=True, index=False, encoding='utf-8')
+    
+    print(f"模型指标已保存至：{csv_path}")
 
 def evaluate_and_plot(y_test, y_pred, model_name, output_filename):
 
@@ -272,6 +294,8 @@ def evaluate_and_plot(y_test, y_pred, model_name, output_filename):
     print(f"RMSE：{rmse:.4f}")
     print(f"MAE：{mae:.4f}")
     print(f"R²：{r2:.4f}")
+    metrics_csv_path = "../../outputs/Outputs.csv"
+    save_metrics_to_csv(model_name, rmse, mae, r2, metrics_csv_path)
 
     plt.figure(figsize=(12, 6))
     plt.plot(y_test.index, y_test.values, label='真实值', color='blue', linewidth=2)

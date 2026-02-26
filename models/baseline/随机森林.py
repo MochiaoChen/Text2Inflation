@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt  # 数据可视化（绘制预测结果对比图
 from sklearn.ensemble import RandomForestRegressor  # 随机森林回归模型（核心预测模型）
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score  # 模型评估指标
 import seaborn as sns  # 美化绘图风格
+from utils import save_metrics_to_csv  # 自定义工具函数：保存评估指标到CSV文件（便于结果记录和对比）
 
 # ===================== 全局绘图配置 =====================
 # 设置seaborn绘图风格（白色网格），提升图表可读性
@@ -142,6 +143,8 @@ def process_and_forecast_inflation(file_path):
     print(f"MAE： {mae:.4f}")
     print(f"RMSE： {rmse:.4f}")
     print(f"R²： {r2:.4f}")
+    metrics_csv_path = "../../outputs/Outputs.csv"
+    save_metrics_to_csv("随机森林", rmse, mae, r2, metrics_csv_path)
 
     # ===================== 6. 结果可视化 =====================
     plt.figure(figsize=(12, 6))  # 设置图表尺寸

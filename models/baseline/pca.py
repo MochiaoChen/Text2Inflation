@@ -7,6 +7,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import seaborn as sns
+from utils import save_metrics_to_csv
 
 # 设置绘图风格与中文字体
 sns.set(style="whitegrid")
@@ -137,7 +138,9 @@ def process_and_forecast_inflation_pca(file_path):
     
     print(f"    测试集RMSE（均方根误差）: {rmse:.4f}")
     print(f"    测试集MAE（平均绝对误差）: {mae:.4f}")
-    print(f"    测试集R²（拟合优度）: {r2:.4f}") # R² 应为正数
+    print(f"    测试集R²（拟合优度）: {r2:.4f}")
+    metrics_csv_path = "../../outputs/Outputs.csv"
+    save_metrics_to_csv("PCA", rmse, mae, r2, metrics_csv_path)
 
     # 绘制预测结果对比图
     plt.figure(figsize=(12, 6))

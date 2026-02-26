@@ -6,7 +6,6 @@ PLS (偏最小二乘) 回归模型预测通货膨胀率 (Enhanced with NLP Featu
 import sys
 import os
 import numpy as np
-import pandas as pd
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.model_selection import RepeatedKFold, cross_val_score
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error

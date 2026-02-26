@@ -7,6 +7,7 @@ from sklearn.linear_model import ElasticNetCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import seaborn as sns
+from utils import save_metrics_to_csv
 
 # 设置绘图风格与中文字体
 sns.set(style="whitegrid")
@@ -126,6 +127,8 @@ def process_and_forecast_cpi(file_path):
     print(f"RMSE： {rmse:.4f}")
     print(f"MAE： {mae:.4f}")
     print(f"R²： {r2:.4f}")
+    metrics_csv_path = "../../outputs/Outputs.csv"
+    save_metrics_to_csv("Elastic Net", rmse, mae, r2, metrics_csv_path)
 
     # 绘制预测结果对比图
     plt.figure(figsize=(12, 6))
