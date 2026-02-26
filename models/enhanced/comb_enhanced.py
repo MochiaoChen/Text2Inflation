@@ -7,10 +7,9 @@ import sys
 import os
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.linear_model import LassoCV, ElasticNetCV, LinearRegression
 from sklearn.decomposition import PCA
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.metrics import mean_squared_error
 
 # Adjust path to import utils from code root
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -73,6 +72,7 @@ def run_comb_enhanced(file_path=None):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     output_path = os.path.join(OUTPUT_DIR, '6.Comb_enhanced.png')
     evaluate_and_plot(y_test, y_pred_comb.values, 'Comb_Enhanced', output_path)
+    
 
 
 if __name__ == "__main__":

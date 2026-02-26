@@ -6,6 +6,7 @@ from sklearn.linear_model import LassoCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import seaborn as sns
+from utils import save_metrics_to_csv
 
 # 设置绘图风格
 sns.set(style="whitegrid")
@@ -140,6 +141,9 @@ def process_and_forecast_cpi(file_path):
     print(f"RMSE： {rmse:.4f}")
     print(f"MAE： {mae:.4f}")
     print(f"R²： {r2:.4f}")
+    metrics_csv_path = "../../outputs/Outputs.csv"
+    save_metrics_to_csv("LASSO", rmse, mae, r2, metrics_csv_path)
+
 
     # 绘图
     plt.figure(figsize=(12, 6))

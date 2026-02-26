@@ -6,7 +6,6 @@ Elastic Net 回归模型预测通货膨胀率 (Enhanced with NLP Features)
 import sys
 import os
 import pandas as pd
-import numpy as np
 from sklearn.linear_model import ElasticNetCV
 
 # Adjust path to import utils from code root

@@ -8,6 +8,7 @@ from sklearn.model_selection import RepeatedKFold, cross_val_score
 from sklearn.preprocessing import StandardScaler # 必须引入标准化
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import seaborn as sns
+from utils import save_metrics_to_csv
 
 # ===================== 全局绘图配置 =====================
 sns.set(style="whitegrid")
@@ -145,6 +146,8 @@ def process_and_forecast_inflation_pls(file_path):
     print(f"R²： {r2:.4f}")
     print(f"【基准对比】基准历史平均RMSE: {rmse_avg:.4f}")
     print(f"【基准对比】相对RMSE: {rRMSE:.4f}") # 关注此值是否小于 1.0
+    metrics_csv_path = "../../outputs/Outputs.csv"
+    save_metrics_to_csv("PLS", rmse, mae, r2, metrics_csv_path)
 
 
     # ===================== 7. 结果可视化 =====================
