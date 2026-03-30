@@ -2,7 +2,7 @@
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Gemini API](https://img.shields.io/badge/LLM-Gemini_2.0_Flash-orange)](https://deepmind.google/technologies/gemini/)
+[![Gemini API](https://img.shields.io/badge/LLM-Gemini_3.0_Flash-orange)](https://deepmind.google/technologies/gemini/)
 
 **Text2Inflation** is a research framework designed to quantify narrative information from the People's Bank of China (PBoC) *Monetary Policy Reports* and integrate these high-dimensional textual features into macroeconomic forecasting models.
 
