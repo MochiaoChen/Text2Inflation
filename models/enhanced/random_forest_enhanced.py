@@ -1,60 +1,31 @@
-"""
-随机森林回归模型预测通货膨胀率 (Enhanced with NLP Features)
-使用 RandomForestRegressor 集成学习方法
-"""
-
-import sys
+"""Random Forest Enhanced — expanding-window。"""
 import os
-import pandas as pd
-import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 
-# Adjust path to import utils from code root
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from data_utils import (
+from utils.data_utils import (
     setup_plot_style, load_enhanced_data, create_lag_features,
-    split_and_scale, evaluate_and_plot, OUTPUT_DIR
+    expanding_window_predict, evaluate_and_plot, save_predictions,
+    save_metrics_to_csv, ENHANCED_OUTPUT_DIR,
 )
+
+MODEL_NAME = 'random_forest_enhanced'
 
 
 def run_random_forest_enhanced(file_path=None):
     setup_plot_style()
-
-    # 数据加载与平稳化 (Enhanced)
     df, target_col = load_enhanced_data(file_path, stationarize=True)
-
-    # 特征工程
     data_final = create_lag_features(df, target_col)
 
-    # 划分与标准化
-    X_train_scaled, X_test_scaled, y_train, y_test, scaler, feature_names = \
-        split_and_scale(data_final, target_col)
+    factory = lambda: RandomForestRegressor(n_estimators=300, max_depth=None,
+                                            min_samples_split=3, n_jobs=-1,
+                                            random_state=42)
+    y_true, y_pred, _ = expanding_window_predict(data_final, target_col, factory, scale=False)
 
-    # 模型训练
-    print("\n>>> 模型训练 (随机森林 Enhanced)...")
-    rf_model = RandomForestRegressor(
-        n_estimators=200,
-        max_depth=10,
-        min_samples_split=5,
-        min_samples_leaf=3,
-        random_state=42,
-        n_jobs=-1
-    )
-    rf_model.fit(X_train_scaled, y_train)
-
-    # 特征重要性
-    importances = pd.Series(rf_model.feature_importances_, index=feature_names)
-    top_features = importances.sort_values(ascending=False).head(10)
-    print("\n 随机森林特征重要性 Top 10:")
-    print(top_features)
-
-    # 输出结果
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-
-    # 预测与评估
-    y_pred = rf_model.predict(X_test_scaled)
-    output_path = os.path.join(OUTPUT_DIR, '2.随机森林_enhanced.png')
-    evaluate_and_plot(y_test, y_pred, '随机森林_Enhanced', output_path)
+    metrics = evaluate_and_plot(y_true, y_pred, 'Random Forest (Enhanced)',
+                                os.path.join(ENHANCED_OUTPUT_DIR, '2_random_forest_enhanced.png'))
+    save_predictions(MODEL_NAME, y_true, y_pred)
+    save_metrics_to_csv(MODEL_NAME, **metrics)
+    return metrics
 
 
 if __name__ == "__main__":

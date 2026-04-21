@@ -1,78 +1,44 @@
-"""
-组合预测 (Combination / Comb) 模型 (Enhanced with NLP Features)
-对 LASSO、Elastic Net、PCA+OLS 三个基准模型的预测结果取简单平均
-"""
-
-import sys
+"""Combination Enhanced — 等权平均 LASSO / Elastic Net / PCA+OLS enhanced 预测。"""
 import os
 import pandas as pd
-import numpy as np
-from sklearn.linear_model import LassoCV, ElasticNetCV, LinearRegression
-from sklearn.decomposition import PCA
-from sklearn.metrics import mean_squared_error
 
-# Adjust path to import utils from code root
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from data_utils import (
-    setup_plot_style, load_enhanced_data, create_lag_features,
-    split_and_scale, evaluate_and_plot, OUTPUT_DIR
+from utils.data_utils import (
+    setup_plot_style, evaluate_and_plot, save_predictions,
+    save_metrics_to_csv, ENHANCED_OUTPUT_DIR, PREDICTIONS_DIR,
 )
+
+MODEL_NAME = 'comb_enhanced'
+MEMBERS = ['lasso_enhanced', 'elastic_net_enhanced', 'pca_enhanced']
+
+
+def _load_or_run():
+    from models.enhanced import lasso_enhanced, elastic_net_enhanced, pca_enhanced
+    runners = {'lasso_enhanced': lasso_enhanced.run_lasso_enhanced,
+               'elastic_net_enhanced': elastic_net_enhanced.run_elastic_net_enhanced,
+               'pca_enhanced': pca_enhanced.run_pca_enhanced}
+    preds = {}
+    for name in MEMBERS:
+        path = os.path.join(PREDICTIONS_DIR, f"{name}.csv")
+        if not os.path.exists(path):
+            print(f">>> Running missing member: {name}")
+            runners[name]()
+        preds[name] = pd.read_csv(path, index_col='date', parse_dates=True)
+    return preds
 
 
 def run_comb_enhanced(file_path=None):
     setup_plot_style()
-    
-    df, target_col = load_enhanced_data(file_path, stationarize=False)
+    preds = _load_or_run()
 
-    # 特征工程
-    data_final = create_lag_features(df, target_col)
+    idx = preds[MEMBERS[0]].index
+    y_true = preds[MEMBERS[0]]['y_true']
+    y_pred_avg = pd.concat([preds[m]['y_pred'].reindex(idx) for m in MEMBERS], axis=1).mean(axis=1)
 
-    # 划分与标准化
-    X_train_scaled, X_test_scaled, y_train, y_test, scaler, feature_names = \
-        split_and_scale(data_final, target_col)
-
-    # 初始化预测结果存储
-    predictions = pd.DataFrame(index=y_test.index)
-
-    # --- LASSO ---
-    print("\n>>> 训练 LASSO 模型...")
-    lasso_model = LassoCV(cv=5, random_state=42, max_iter=10000)
-    lasso_model.fit(X_train_scaled, y_train)
-    predictions['LASSO'] = lasso_model.predict(X_test_scaled)
-
-    # --- Elastic Net ---
-    print(">>> 训练 Elastic Net 模型...")
-    enet_model = ElasticNetCV(l1_ratio=[.1, .5, .9, 1.0], cv=5, random_state=42, max_iter=10000)
-    enet_model.fit(X_train_scaled, y_train)
-    predictions['ENet'] = enet_model.predict(X_test_scaled)
-
-    # --- PCA + OLS ---
-    print(">>> 训练 PCA + OLS 模型...")
-    pca = PCA(n_components=0.95)
-    X_train_pca = pca.fit_transform(X_train_scaled)
-    X_test_pca = pca.transform(X_test_scaled)
-    lr_model = LinearRegression()
-    lr_model.fit(X_train_pca, y_train)
-    predictions['PCA'] = lr_model.predict(X_test_pca)
-
-    print(f"    完成训练 {len(predictions.columns)} 个基准模型: {predictions.columns.tolist()}")
-
-    # Comb: 简单平均
-    print("\n>>> 预测组合（COMB Enhanced） 简单平均...")
-    predictions['COMB_Mean'] = predictions.mean(axis=1)
-    y_pred_comb = predictions['COMB_Mean']
-
-    # 各子模型 RMSE 对比
-    print("\n    ** 基准模型 RMSE 对比 **")
-    for model_name in predictions.columns[:-1]:
-        rmse_single = np.sqrt(mean_squared_error(y_test, predictions[model_name]))
-        print(f"    - {model_name} RMSE: {rmse_single:.4f}")
-
-    # 输出结果
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    output_path = os.path.join(OUTPUT_DIR, '6.Comb_enhanced.png')
-    evaluate_and_plot(y_test, y_pred_comb.values, 'Comb_Enhanced', output_path)
-    
+    metrics = evaluate_and_plot(y_true, y_pred_avg, 'Combination (Enhanced)',
+                                os.path.join(ENHANCED_OUTPUT_DIR, '6_combination_enhanced.png'))
+    save_predictions(MODEL_NAME, y_true, y_pred_avg)
+    save_metrics_to_csv(MODEL_NAME, **metrics)
+    return metrics
 
 
 if __name__ == "__main__":

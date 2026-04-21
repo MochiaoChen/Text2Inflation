@@ -1,54 +1,29 @@
-import sys
+"""LASSO Enhanced — CPI 滞后 + NLP 叙事特征，expanding-window。"""
 import os
-import pandas as pd
-import numpy as np
 from sklearn.linear_model import LassoCV
 
-# Adjust path to import utils from code root
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from data_utils import (
+from utils.data_utils import (
     setup_plot_style, load_enhanced_data, create_lag_features,
-    split_and_scale, evaluate_and_plot, OUTPUT_DIR
+    expanding_window_predict, evaluate_and_plot, save_predictions,
+    save_metrics_to_csv, ENHANCED_OUTPUT_DIR,
 )
+
+MODEL_NAME = 'lasso_enhanced'
 
 
 def run_lasso_enhanced(file_path=None):
     setup_plot_style()
-
-    # 数据加载与平稳化 (Enhanced)
     df, target_col = load_enhanced_data(file_path, stationarize=True)
-
-    # 特征工程
     data_final = create_lag_features(df, target_col)
 
-    # 划分与标准化
-    X_train_scaled, X_test_scaled, y_train, y_test, scaler, feature_names = \
-        split_and_scale(data_final, target_col)
+    factory = lambda: LassoCV(cv=5, random_state=42, max_iter=10000)
+    y_true, y_pred, _ = expanding_window_predict(data_final, target_col, factory)
 
-    # 模型训练
-    print("\n>>> 模型训练 (LASSO Enhanced)...")
-    lasso_model = LassoCV(cv=5, random_state=42, max_iter=10000, verbose=False)
-    lasso_model.fit(X_train_scaled, y_train)
-
-    print(f"    最佳 Alpha 参数: {lasso_model.alpha_:.6f}")
-
-    # 打印特征重要性
-    coefs = pd.Series(lasso_model.coef_, index=feature_names)
-    important_feats = coefs[coefs != 0].sort_values(ascending=False)
-    print("    LASSO 筛选出的关键预测因子 (Top 5 正向 & Top 5 负向):")
-    if len(important_feats) > 10:
-        print(pd.concat([important_feats.head(5), important_feats.tail(5)]))
-    else:
-        print(important_feats)
-
-    # 输出结果
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    
-    # 预测与评估
-    y_pred = lasso_model.predict(X_test_scaled)
-    output_path = os.path.join(OUTPUT_DIR, '1.LASSO_enhanced.png')
-    evaluate_and_plot(y_test, y_pred, 'LASSO_Enhanced', output_path)
-
+    metrics = evaluate_and_plot(y_true, y_pred, 'LASSO (Enhanced)',
+                                os.path.join(ENHANCED_OUTPUT_DIR, '1_lasso_enhanced.png'))
+    save_predictions(MODEL_NAME, y_true, y_pred)
+    save_metrics_to_csv(MODEL_NAME, **metrics)
+    return metrics
 
 
 if __name__ == "__main__":
