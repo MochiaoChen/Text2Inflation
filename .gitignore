@@ -39,3 +39,5 @@ ENV/
 
 # Mac
 .DS_Store
+
+CLAUDE.ME
