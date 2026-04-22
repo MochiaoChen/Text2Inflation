@@ -39,7 +39,7 @@ The pipeline has three layers that future edits must keep consistent:
 1. **NLP extraction (`nlp/extract_inflation_narrative.py`)** — Uploads each PDF to Gemini (`gemini-2.0-flash`) with a strict system prompt defining 10 narrative dimensions (see Group A–D in the prompt: `INF_Sentiment`, `INF_Duration`, `DRV_{Demand,Supply,External,Monetary}`, `POL_{Tone,Priority}`, `TXT_{Ambiguity,Confidence}`). Per-report JSON is cached in `data/nlp_results/{YYYY-QN}.json` and the aggregate CSV is `data/nlp_features.csv`. If you change the dimension schema, update the prompt, the CSV column order in `main()`, and every downstream model.
 
 2. **Shared data layer (`utils/data_utils.py`)** — All models import from here. Key contract:
-   - `load_and_clean_data(stationarize=True)` returns monthly CPI data; when `stationarize=True` the target is `Inflation` (pct_change of CPI), otherwise `CPI` (raw index). **Known bug:** the function is missing a `return` statement, so `load_and_clean_data` currently returns `None`. `load_enhanced_data` calls it and will fail until fixed.
+   - `load_and_clean_data(stationarize=True)` returns monthly CPI data; when `stationarize=True` the target is `Inflation` (pct_change of CPI), otherwise `CPI` (raw index).
    - `load_enhanced_data(...)` merges `nlp_features.csv` into the monthly frame by mapping `YYYY-QN` to the quarter-end date, then `reindex(..., method='ffill')`. This is deliberately a backtest-style join; it does **not** model PBoC's real ~1–2 month publication lag. Respect that if you change the merge logic.
    - `create_lag_features` defaults to lags `[1,2,3,6,12]` on every non-target column.
    - `split_and_scale` does a chronological 80/20 split (no shuffling) and fits `StandardScaler` on train only.

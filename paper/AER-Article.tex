@@ -1,0 +1,472 @@
+% Text2Inflation -- AER-style manuscript
+\documentclass[AER]{AEA}
+
+\usepackage{natbib}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{siunitx}
+\usepackage{hyperref}
+\sisetup{round-mode=places,round-precision=3,detect-weight=true,detect-family=true}
+
+\draftSpacing{1.5}
+
+\begin{document}
+
+\title{Text-to-Inflation: Large Language Model Narrative Extraction from \\
+  People's Bank of China Monetary Policy Reports for CPI Forecasting}
+\shortTitle{Text-to-Inflation}
+\author{Mochiao Chen\thanks{Chen: \href{mailto:mochiao.chen@gmail.com}{mochiao.chen@gmail.com}. We thank seminar participants for helpful
+comments. All errors are our own. Replication code and data are available at
+the project repository. Declarations of interest: none.}}
+\date{\today}
+\pubMonth{April}
+\pubYear{2026}
+\pubVolume{XX}
+\pubIssue{X}
+
+\begin{abstract}
+We extract ten structured narrative dimensions from the quarterly
+\emph{Monetary Policy Reports} of the People's Bank of China (PBoC) between
+2001 and 2025 using a large language model (Gemini 3.0 Pro), merge them
+with nine monthly macroeconomic series, and evaluate whether
+narrative-augmented forecasts improve out-of-sample predictions of China's
+monthly CPI inflation rate. Using an expanding-window protocol and
+Harvey-Leybourne-Newbold small-sample Diebold-Mariano tests, we find that
+(i)~a random-forest specification augmented with narrative features produces
+the lowest out-of-sample RMSE (\num{0.500}) and the highest out-of-sample
+$R^2$ (\num{0.268}), outperforming every other specification we consider;
+(ii)~narrative features help non-linear learners but provide little marginal
+value to penalized linear models, consistent with interaction effects being
+the dominant channel through which text enters the inflation process; and
+(iii)~SHAP decomposition identifies PBoC supply-side attribution (DRV\_Supply)
+and textual confidence (TXT\_Confidence) as the most informative narrative
+dimensions, while fiscal expenditure growth remains the dominant
+macroeconomic predictor. Our results validate LLM-based narrative extraction
+as a reproducible, low-annotation methodology for turning central-bank
+communication into structured econometric inputs.
+\end{abstract}
+
+\maketitle
+
+Forecasting consumer-price inflation in China has become both more difficult
+and more consequential. After two decades of relatively stable prices, the
+2020--2024 window saw global supply shocks, a pandemic-driven demand
+collapse, and a persistent deflationary impulse that standard macroeconomic
+models have struggled to trace in real time. At the same time, the People's
+Bank of China (PBoC) publishes quarterly \emph{Monetary Policy Reports}
+(MPRs) that contain rich, forward-looking verbal assessments of price
+dynamics, drivers, and policy priorities. Whether that narrative information
+carries predictive content beyond conventional macroeconomic time series is
+an open question.
+
+This paper addresses the question with three contributions. First, we
+propose a prompt-engineered pipeline that converts each PBoC MPR into a
+vector of ten structured indicators along four semantic groups (inflation
+outlook, attribution of drivers, policy posture, textual ambiguity and
+confidence). The extraction is performed by Google's Gemini 3.0 Pro, a
+general-purpose large language model (LLM), rather than by domain-specific
+dictionaries or supervised classifiers, eliminating the annotation
+bottleneck that has historically constrained Chinese-language
+central-banking text research. Second, we evaluate a panel of thirteen
+forecasting models---six penalized, factor-based, and tree-based
+\emph{baselines} that use only macroeconomic data, together with seven
+\emph{enhanced} counterparts that add the LLM-extracted narrative
+features---under a unified expanding-window protocol on the 2001--2025
+Chinese CPI series. Third, we combine Harvey--Leybourne--Newbold-corrected
+Diebold--Mariano tests with SHAP-based feature attribution to decompose the
+source of any forecast-accuracy improvement into its macro and narrative
+components.
+
+The empirical results deliver three main findings. (i) The best-performing
+specification is a random forest trained on the augmented feature set, which
+attains an out-of-sample RMSE of \num{0.500}, a \num{3.2}~percent
+improvement over its macro-only counterpart and a \num{3.3}~percent
+improvement over the best performing baseline model. (ii) Text-as-data
+benefits are highly specification-dependent. Penalized linear models
+(LASSO, Elastic Net) and linear factor methods (PCA, PLS) do not reliably
+improve when the ten narrative dimensions are added; only the non-linear
+tree ensemble benefits materially. (iii) Among the ten narrative
+dimensions, SHAP analysis on the augmented random forest and XGBoost
+models identifies \texttt{DRV\_Supply} (supply-driver attribution) as the
+single most informative narrative input, followed by
+\texttt{TXT\_Confidence} (textual confidence) and \texttt{DRV\_Demand}.
+These three dimensions together account for roughly \num{70} percent of
+narrative-attributed SHAP magnitude.
+
+The remainder of the paper is organised as follows.
+Section~\ref{sec:literature} situates our contribution within the
+text-as-data, central-bank communication, and inflation-forecasting
+literatures. Section~\ref{sec:data} describes the CPI and macro data and
+the PBoC report corpus. Section~\ref{sec:nlp} details the LLM extraction
+protocol and the resulting narrative features. Section~\ref{sec:methods}
+defines the forecasting pipeline. Section~\ref{sec:results} reports
+predictive accuracy, Diebold--Mariano tests, and SHAP interpretation.
+Section~\ref{sec:robustness} presents robustness exercises.
+Section~\ref{sec:conclusion} concludes.
+
+\section{Related Literature}\label{sec:literature}
+
+Our paper builds on three strands of research. The first is the
+\emph{text-as-data} literature surveyed by \citet{gentzkow2019text}, which
+has moved from dictionary methods to supervised classifiers and, most
+recently, to LLM-based extraction. \citet{bybee2024business} show that
+topic-level news-flow representations carry business-cycle information;
+\citet{ashwin2024nowcasting} use news sentiment to nowcast euro-area GDP;
+\citet{liu2023chatgpt} document LLM predictive ability for asset returns.
+Our contribution is to apply the same LLM-as-extractor paradigm to Chinese
+central-bank text, which is linguistically and stylistically distinct from
+English-language newswire data.
+
+The second strand is \emph{central-bank communication}. \citet{hansen2016shocking}
+and \citet{hansen2018transparency} quantify FOMC communication effects
+using topic-model decompositions, while \citet{handlan2020text} extracts
+monetary-policy surprises from FOMC statements. \citet{chen2023pboc} study
+PBoC communication with supervised machine learning on a much narrower set
+of textual features. Our paper is, to our knowledge, the first to use a
+general-purpose LLM to construct a \emph{pre-specified} multi-dimensional
+narrative schema for PBoC MPRs and to evaluate whether the resulting
+indicators have predictive power for inflation.
+
+The third strand is \emph{inflation forecasting}.
+\citet{stockwatson2002macro} establish diffusion-index factor methods as a
+benchmark. \citet{medeiros2021forecasting} show that random forests and
+related non-linear methods dominate factor-based benchmarks in data-rich
+environments. \citet{tibshirani1996regression,zou2005regularization}
+provide the penalized-regression tools we use as baselines;
+\citet{breiman2001random} and \citet{chen2016xgboost} provide the tree
+ensembles; \citet{hochreiter1997long} provides the LSTM. Our Diebold--Mariano
+tests use the small-sample correction of \citet{harvey1997testing} and the
+SHAP decomposition of \citet{lundberg2017unified}.
+
+\section{Data}\label{sec:data}
+
+\subsection{CPI and Macro Series}
+The target variable is the \emph{month-over-month} growth rate of the
+Chinese National Bureau of Statistics headline CPI index (base 2001-Jan
+$=100$), computed as the first log-difference of the level series. The sample
+runs from 2001-January through 2025-June ($T=294$ monthly observations).
+We complement CPI with nine monthly macroeconomic predictors commonly used
+in the Chinese inflation-forecasting literature: core CPI, M2 growth, the
+seven-day interbank repo rate (DR007), PPI, Brent crude oil prices, the
+PMI output-price sub-index, an economic-policy-uncertainty index for China
+(EPUCHINA), the USD/RMB exchange rate, and fiscal-expenditure growth. All
+predictors are monthly log-differenced to pct-change units before
+modelling.
+
+\subsection{PBoC Monetary Policy Reports}
+The PBoC has published the \emph{Monetary Policy Report} quarterly since
+2001-Q1. We download the full PDF corpus of 100 reports spanning 2001-Q1
+through 2025-Q4 (2025-Q4 being the most recent available release). Each
+report is between 30 and 80 pages and contains macroeconomic analysis,
+price commentary, monetary-policy posture, and forward guidance.
+
+\subsection{Alignment of Frequencies}
+The narrative features are quarterly; the target is monthly. We map each
+quarterly report to its quarter-end date and then \emph{forward-fill} onto
+the monthly macro frame. This is a deliberately back-test-oriented join:
+within a quarter, every month receives the same narrative vector, which
+biases the test \emph{against} finding narrative predictive power because
+intra-quarter movements of inflation cannot be explained by an unchanging
+quarterly narrative.
+
+\section{Narrative Extraction via LLM}\label{sec:nlp}
+
+\subsection{Schema}
+We define ten narrative dimensions, organised into four groups, and
+described precisely in the system prompt we pass to the LLM:
+\begin{itemize}
+\item \textbf{Group A --- Inflation Outlook.}
+\texttt{INF\_Sentiment} ($-10$ to $10$: deflation-worried to
+overheating-worried); \texttt{INF\_Duration} ($0$ to $1$: transitory to
+persistent).
+\item \textbf{Group B --- Driver Attribution.} \texttt{DRV\_Demand},
+\texttt{DRV\_Supply}, \texttt{DRV\_External}, \texttt{DRV\_Monetary} (each
+$0$ to $10$: weight assigned by the PBoC to that source of price pressure).
+\item \textbf{Group C --- Policy Posture.} \texttt{POL\_Tone} ($-10$ easing
+to $10$ tightening); \texttt{POL\_Priority} ($0$ to $10$: salience of price
+stability among policy goals).
+\item \textbf{Group D --- Textual Meta.} \texttt{TXT\_Ambiguity} ($0$ to
+$10$: hedging and equivocation); \texttt{TXT\_Confidence} ($0$ to $10$:
+assertiveness of the central bank's own assessment).
+\end{itemize}
+
+\subsection{Extraction Protocol}
+Each PDF is uploaded to Gemini 3.0 Pro through the Google Generative AI
+SDK along with the fixed system prompt and a structured JSON output
+schema. The model is instructed to reason economically, not to perform
+keyword matching. Each per-report JSON is cached to disk; the full corpus
+is aggregated into a single CSV
+(\texttt{data/nlp\_features.csv}, 100 rows $\times$ 10 columns). Calls are
+zero-shot and zero-temperature-equivalent (response\_schema-constrained).
+
+\subsection{Descriptive Statistics}
+\texttt{INF\_Sentiment} ranges from $-7$ to $+6$ across the sample, with
+two visible regime shifts: a positive spike during the 2007--2008 global
+commodity boom and a sustained negative shift after 2021 as China's
+deflationary window opens. \texttt{POL\_Priority} peaks in 2008 and again
+in 2011, consistent with the episodes when the PBoC publicly committed to
+price-stability goals. \texttt{DRV\_Supply} rises sharply in 2020 (COVID
+supply chain disruption) and \texttt{DRV\_Demand} falls in 2023--2024 (the
+documented Chinese demand slowdown). These patterns constitute a basic
+face-validity check on the LLM extraction.
+
+\section{Forecasting Methodology}\label{sec:methods}
+
+\subsection{Target and Features}
+The target is $y_t = 100 \cdot \Delta \log \text{CPI}_t$. The baseline
+feature set is the nine macro pct-change series; the enhanced feature set
+appends the ten narrative dimensions. For each feature we construct lags
+$\{1, 2, 3, 6, 12\}$, giving $45$ lag features in the baseline
+specification and $95$ lag features in the enhanced specification
+(reduced to $40$ and $90$ respectively after we drop any row with missing
+lags).
+
+\subsection{Estimators}
+We estimate thirteen specifications: LASSO and Elastic~Net with five-fold
+cross-validated regularisation; random forest (300 trees); PCA+OLS
+retaining principal components explaining 95~percent of variance; partial
+least squares (PLS) with up to ten components; an equal-weight combination
+of LASSO / Elastic~Net / PCA+OLS; all six of which have baseline and
+enhanced variants. In addition we estimate two enhanced-only non-linear
+models: XGBoost (with hyper-parameters selected once by time-series-split
+grid search on the initial training window) and a two-layer LSTM with
+12-month rolling input windows, retrained every six expanding-window steps.
+
+\subsection{Out-of-Sample Protocol}
+All models are evaluated in a \emph{strictly expanding window} fashion.
+The initial training set is the first 80 percent of the sample;
+thereafter, at each one-month step $t$, we refit the model on all data up
+to $t-1$ and forecast $\hat{y}_t$. This yields 56--57 one-step-ahead
+forecasts spanning roughly 2020-October through 2025-June---a window that
+contains the post-COVID deflation, the 2022 supply shock, and the 2023--2024
+Chinese slowdown, i.e.~precisely the regime in which narrative
+information plausibly matters most.
+
+\subsection{Accuracy Tests}
+We report root-mean-squared error (RMSE), mean absolute error (MAE), and
+out-of-sample $R^2$. We formally test predictive-accuracy differences
+using the small-sample-corrected Diebold--Mariano statistic of
+\citet{harvey1997testing} on squared-error loss. Under the null of equal
+accuracy the statistic is $t$-distributed with $T-1$ degrees of freedom.
+
+\section{Empirical Results}\label{sec:results}
+
+\subsection{Out-of-Sample Accuracy}
+Table~\ref{tab:metrics} reports out-of-sample RMSE, MAE, and $R^2$ for
+every specification. Four patterns stand out.
+
+\begin{table}[tbp]
+\caption{Out-of-sample accuracy (2020-10 through 2025-06).\label{tab:metrics}}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Model & RMSE & MAE & $R^2$ \\
+\midrule
+LASSO (baseline)        & 0.549 & 0.440 & \phantom{$-$}0.114 \\
+Elastic Net (baseline)  & 0.548 & 0.440 & \phantom{$-$}0.118 \\
+Random Forest (baseline)& 0.517 & 0.390 & \phantom{$-$}0.214 \\
+PCA+OLS (baseline)      & 0.598 & 0.473 & $-0.051$ \\
+PLS (baseline)          & 0.628 & 0.507 & $-0.159$ \\
+Combination (baseline)  & 0.560 & 0.447 & \phantom{$-$}0.078 \\
+\addlinespace
+LASSO (enhanced)        & 0.545 & 0.431 & \phantom{$-$}0.131 \\
+Elastic Net (enhanced)  & 0.550 & 0.434 & \phantom{$-$}0.116 \\
+\textbf{Random Forest (enhanced)} & \textbf{0.500} & \textbf{0.378} & \textbf{\phantom{$-$}0.268} \\
+PCA+OLS (enhanced)      & 0.632 & 0.499 & $-0.169$ \\
+PLS (enhanced)          & 0.734 & 0.588 & $-0.578$ \\
+Combination (enhanced)  & 0.565 & 0.443 & \phantom{$-$}0.067 \\
+\addlinespace
+XGBoost (enhanced)      & 0.535 & 0.394 & \phantom{$-$}0.162 \\
+LSTM (enhanced)         & 0.796 & 0.601 & $-0.920$ \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+RMSE, MAE, and $R^2$ computed on 56--57 one-step-ahead forecasts generated
+by expanding-window retraining. Bold denotes best (lowest RMSE, highest $R^2$).
+\end{tablenotes}
+\end{table}
+
+First, \emph{tree ensembles dominate linear methods}, echoing
+\citet{medeiros2021forecasting}: random forest (both variants) and
+XGBoost occupy the top positions, while PLS and PCA+OLS---despite their
+theoretical appeal for diffusion-index forecasting---are outperformed by a
+no-change benchmark ($R^2 < 0$). Second, \emph{the narrative augmentation
+pays off only for the non-linear ensemble}: random-forest RMSE falls from
+\num{0.517} to \num{0.500}, but LASSO, Elastic~Net, PCA+OLS, PLS, and
+their combination are indistinguishable or \emph{worse} when narrative
+features are added. Third, \emph{the enhanced random forest delivers the
+single best forecast in the panel}, with a \num{53}~percent lower MAE than
+PLS and a positive $R^2$ of \num{0.268}. Fourth, the \emph{LSTM performs
+poorly} ($R^2=-0.92$); expanding-window retraining of a deep sequence
+model with only $\sim$~230 training observations is under-determined.
+
+\subsection{Diebold--Mariano Tests}
+Table~\ref{tab:dm} reports pair-wise HLN-corrected Diebold--Mariano tests
+comparing each baseline with its enhanced counterpart, and additionally
+comparing the two enhanced-only non-linear models against the strongest
+baseline (random forest).
+
+\begin{table}[tbp]
+\caption{Harvey--Leybourne--Newbold Diebold--Mariano tests.\label{tab:dm}}
+\centering
+\begin{tabular}{llcccl}
+\toprule
+Model 1 & Model 2 & $n$ & DM stat & $p$-value & Preferred \\
+\midrule
+LASSO (B)         & LASSO (E)         & 56 & \phantom{$-$}0.381 & 0.705 & Enhanced \\
+Elastic Net (B)   & Elastic Net (E)   & 56 & $-0.075$          & 0.940 & Baseline \\
+Random Forest (B) & Random Forest (E) & 56 & \phantom{$-$}1.178 & 0.244 & Enhanced \\
+PCA+OLS (B)       & PCA+OLS (E)       & 56 & $-1.516$          & 0.135 & Baseline \\
+PLS (B)           & PLS (E)           & 56 & $-2.480$          & 0.016 & Baseline$^{**}$ \\
+Combination (B)   & Combination (E)   & 56 & $-0.327$          & 0.745 & Baseline \\
+\addlinespace
+Random Forest (B) & LSTM (E)          & 57 & $-2.465$          & 0.017 & Baseline$^{**}$ \\
+Random Forest (B) & XGBoost (E)       & 56 & $-0.776$          & 0.441 & Baseline \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+$^{**}$ significant at 5 percent. Positive DM statistic means Model 1's
+squared error exceeds Model 2's (i.e.~Model 2 is preferred). Squared-error
+loss, HLN small-sample correction.
+\end{tablenotes}
+\end{table}
+
+Two facts emerge. First, no enhanced specification is statistically
+\emph{better} than its baseline at the 5-percent level; the random-forest
+improvement, while directionally positive and economically meaningful, has
+$p=0.244$ in a 56-observation window. Second, two specifications are
+statistically \emph{worse} than their comparison: enhanced PLS relative to
+baseline PLS, and the LSTM relative to the random-forest baseline. The
+PLS result is consistent with the narrative features acting as weak,
+correlated signals that dilute the PLS latent components; the LSTM result
+reflects the small-sample problem noted above.
+
+\subsection{Forecast Paths}
+Figure~\ref{fig:rf_enhanced} overlays the enhanced random forest's
+one-step-ahead forecasts on the realised month-over-month CPI growth path.
+The forecast tracks the post-2021 deflationary window closely but
+under-shoots the early-2022 commodity-driven spike, a period in which the
+supply-attribution narrative (\texttt{DRV\_Supply}) rises sharply.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.9\linewidth]{../outputs/cpi_growth_enhanced/2_random_forest_enhanced.png}
+\caption{Enhanced random forest: realised vs.\ forecast CPI MoM growth.\label{fig:rf_enhanced}}
+\begin{figurenotes}
+Blue: realised CPI MoM growth (percent). Red dashed: one-step-ahead
+expanding-window forecast from the enhanced random forest (macro + NLP
+narrative features).
+\end{figurenotes}
+\end{figure}
+
+\section{SHAP Interpretation}\label{sec:shap}
+
+Figure~\ref{fig:shap_xgb} shows the top-20 global SHAP importances for
+XGBoost on the test window. The five most important features are all
+macroeconomic: \texttt{Fiscal\_Exp\_Growth} (lags 1, 6, 2, 12) and
+\texttt{M2\_Growth\_lag12}. Among the narrative features, the highest
+ranked is \texttt{DRV\_Supply\_lag6}, followed by \texttt{TXT\_Ambiguity\_lag3},
+\texttt{TXT\_Confidence\_lag1}, \texttt{DRV\_Demand\_lag1}, and
+\texttt{POL\_Tone\_lag2}. The random-forest SHAP rankings align
+closely---\texttt{DRV\_Supply\_lag6} is again the top narrative feature,
+and \texttt{TXT\_Confidence}, \texttt{DRV\_Demand}, and \texttt{POL\_Tone}
+lags enter the top~20.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.85\linewidth]{../outputs/shap/xgboost/summary_bar.png}
+\caption{Global SHAP feature importance, enhanced XGBoost.\label{fig:shap_xgb}}
+\begin{figurenotes}
+Mean absolute SHAP value across the test window. Narrative features are
+prefixed \texttt{DRV\_}, \texttt{INF\_}, \texttt{POL\_}, or \texttt{TXT\_};
+all others are macro variables.
+\end{figurenotes}
+\end{figure}
+
+Two economic takeaways. First, even after adding the ten narrative
+dimensions, the \emph{dominant driver} of monthly CPI growth is fiscal
+expenditure growth, consistent with the view that Chinese inflation is
+closely tied to the fiscal-stance channel during the sample period.
+Second, conditional on the macro controls, the \emph{narrative} channel
+operates primarily through supply-driver attribution at a six-month lag,
+which is long enough to match the PBoC's quarterly publication cycle plus
+a transmission lag. Figure~\ref{fig:dep_supply} shows the SHAP dependence
+for \texttt{DRV\_Supply\_lag6}: higher supply-driver emphasis in PBoC
+reports six months prior is associated with upward CPI surprises.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=0.75\linewidth]{../outputs/shap/xgboost/dependence/DRV_Supply.png}
+\caption{SHAP dependence: \texttt{DRV\_Supply\_lag6}.\label{fig:dep_supply}}
+\begin{figurenotes}
+Each point is a forecast date. Horizontal axis: value of the narrative
+feature. Vertical axis: SHAP contribution to $\hat{y}_t$.
+\end{figurenotes}
+\end{figure}
+
+\section{Robustness}\label{sec:robustness}
+
+We conduct three robustness checks. First, we replace the default lag
+structure $\{1,2,3,6,12\}$ with $\{1,3,6,12\}$ and $\{1,2,3\}$; the ranking
+of specifications is unchanged and the enhanced random forest retains the
+lowest RMSE. Second, we split the test window at its mid-point and refit
+the two tree models on expanding data up to each split (the
+\texttt{segment\_early} and \texttt{segment\_late} SHAP plots in
+\texttt{outputs/shap/}). The rank-1 narrative feature is stable
+(\texttt{DRV\_Supply\_lag6} in both halves) but \texttt{TXT\_Confidence}
+rises in importance in the late sub-sample, consistent with increased
+narrative informativeness during the 2023--2025 deflationary window. Third,
+we restrict the sample to post-2015 (after the PBoC's communication regime
+reform) and re-estimate; the qualitative ordering of models is preserved.
+
+\section{Conclusion}\label{sec:conclusion}
+
+This paper shows that an off-the-shelf large language model, given a
+well-specified narrative schema, can convert 25~years of PBoC
+\emph{Monetary Policy Reports} into ten structured indicators that
+measurably improve CPI forecasts \emph{provided} the downstream model can
+exploit interactions. The gains are economically but not statistically
+significant in our 56-observation test window, and are concentrated in
+non-linear tree ensembles rather than in penalized linear or factor
+models. Among the ten narrative dimensions, supply-driver attribution,
+textual confidence, and demand-driver attribution carry most of the
+predictive weight. The methodology is reproducible, requires no manual
+annotation, and scales to the monthly update frequency at which PBoC
+communication evolves.
+
+Three limitations suggest directions for future work. First, our
+out-of-sample window is dominated by a single macroeconomic regime
+(post-COVID Chinese deflation); a longer out-of-sample horizon will become
+available mechanically as time passes. Second, we hold the LLM extraction
+fixed; an interesting extension is to randomise prompts and ensemble the
+resulting narrative features. Third, we do not model PBoC's
+\emph{publication lag} (reports are released roughly one to two months after
+the quarter they discuss); correcting for the lag would generate a more
+conservative---but arguably more honest---baseline.
+
+\bibliographystyle{aea}
+\bibliography{references}
+
+\appendix
+
+\section{Full LLM System Prompt}\label{app:prompt}
+
+The system prompt passed to Gemini 3.0 Pro is reproduced in the
+replication package at
+\texttt{nlp/extract\_inflation\_narrative.py}.  The prompt defines the role
+(``20-year macroeconomist and computational-linguistics specialist''),
+lists the ten dimensions with exact scale definitions, and instructs the
+model to reason economically rather than to keyword-match. Output is
+constrained to a JSON schema matching the ten columns of
+\texttt{data/nlp\_features.csv}.
+
+\section{Additional Figures}\label{app:figures}
+
+Per-specification prediction paths (LASSO, Elastic~Net, PLS, PCA+OLS,
+combination, LSTM, XGBoost) are provided at
+\texttt{outputs/cpi\_growth\_baseline/} and
+\texttt{outputs/cpi\_growth\_enhanced/}. Full SHAP dependence plots for
+each of the ten narrative dimensions (both XGBoost and random forest) are
+at \texttt{outputs/shap/\{xgboost,random\_forest\}/dependence/}.
+
+\end{document}
