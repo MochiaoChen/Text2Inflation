@@ -56,7 +56,7 @@ _ensure_dirs()
 def setup_plot_style():
     """设置 matplotlib 中文绘图风格（黑体 + whitegrid）"""
     sns.set(style="whitegrid")
-    plt.rcParams['font.sans-serif'] = ['SimHei', 'DejaVu Sans']
+    plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial']
     plt.rcParams['axes.unicode_minus'] = False
 
 
@@ -112,9 +112,16 @@ def load_and_clean_data(file_path=None, stationarize=True):
     return df, target_col
 
 
-def load_enhanced_data(file_path=None, nlp_file_path=None, stationarize=True):
+def load_enhanced_data(file_path=None, nlp_file_path=None, stationarize=True,
+                       publication_lag_months=0):
     """
     读取 CPI 数据并合并 NLP 叙事特征（季度 → 月度 ffill）。
+
+    publication_lag_months : int
+        Push each report's effective availability forward by this many months
+        to mimic PBoC publication delay (reports for quarter Q typically appear
+        ~1-2 months after Q ends). Default 0 reproduces the original (mildly
+        forward-looking) join.
     """
     if nlp_file_path is None:
         nlp_file_path = DEFAULT_NLP_PATH
@@ -125,7 +132,7 @@ def load_enhanced_data(file_path=None, nlp_file_path=None, stationarize=True):
         print(f"Warning: NLP feature file not found at {nlp_file_path}. Returning baseline data.")
         return df, target_col
 
-    print(f">>> 加载 NLP 增强特征: {nlp_file_path}")
+    print(f">>> 加载 NLP 增强特征: {nlp_file_path} (publication_lag_months={publication_lag_months})")
     nlp_df = pd.read_csv(nlp_file_path)
 
     nlp_dates = []
@@ -136,6 +143,9 @@ def load_enhanced_data(file_path=None, nlp_file_path=None, stationarize=True):
 
     nlp_df.index = pd.DatetimeIndex(nlp_dates)
     nlp_df = nlp_df.sort_index().drop(columns=['report_period'])
+
+    if publication_lag_months:
+        nlp_df.index = nlp_df.index + pd.DateOffset(months=publication_lag_months)
 
     nlp_reindexed = nlp_df.reindex(df.index, method='ffill')
     df_enhanced = pd.concat([df, nlp_reindexed], axis=1).dropna()
@@ -276,11 +286,11 @@ def evaluate_and_plot(y_test, y_pred, model_name, output_path):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     plt.figure(figsize=(12, 6))
-    plt.plot(y_test.index, y_test.values, label='真实值', color='blue', linewidth=2)
-    plt.plot(y_test.index, np.asarray(y_pred), label='预测值', color='red', linestyle='--', linewidth=2)
-    plt.title(f'通货膨胀率预测结果对比（{model_name}）', fontsize=16)
-    plt.xlabel('日期', fontsize=12)
-    plt.ylabel('CPI 环比增长率 (%)', fontsize=12)
+    plt.plot(y_test.index, y_test.values, label='Actual', color='blue', linewidth=2)
+    plt.plot(y_test.index, np.asarray(y_pred), label='Predicted', color='red', linestyle='--', linewidth=2)
+    plt.title(f'CPI Inflation Forecast vs. Actual ({model_name})', fontsize=16)
+    plt.xlabel('Date', fontsize=12)
+    plt.ylabel('CPI MoM Growth (%)', fontsize=12)
     plt.legend()
     plt.grid(True, which='both', linestyle='--', alpha=0.7)
     plt.tight_layout()

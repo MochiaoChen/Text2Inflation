@@ -1,4 +1,4 @@
-"""Diebold-Mariano test.
+"""Diebold-Mariano and Clark-West tests.
 
 Compares forecast accuracy of two models using squared-error loss by default.
 Pairs every baseline model with its enhanced counterpart (by reading the
@@ -12,7 +12,7 @@ from typing import Tuple
 
 import numpy as np
 import pandas as pd
-from scipy.stats import t as student_t
+from scipy.stats import t as student_t, norm
 
 from utils.data_utils import PREDICTIONS_DIR, OUTPUT_DIR
 
@@ -69,6 +69,36 @@ def dm_test(e1: np.ndarray, e2: np.ndarray, h: int = 1, power: int = 2
     return float(dm_stat), float(p_value)
 
 
+def clark_west_test(y_true: np.ndarray, y_small: np.ndarray, y_large: np.ndarray
+                    ) -> Tuple[float, float]:
+    """Clark-West (2007) test for nested forecast comparison.
+
+    H0: the smaller (nested) model has equal MSPE to the larger model.
+    H1 (one-sided): the larger model has lower MSPE.
+
+    Adjustment removes the noise penalty paid by the larger model when the
+    extra parameters are uninformative — making the test correctly sized for
+    nested specs where DM is undersized.
+
+    Returns (CW statistic, one-sided p-value).
+    """
+    y_true = np.asarray(y_true, dtype=float)
+    y_small = np.asarray(y_small, dtype=float)
+    y_large = np.asarray(y_large, dtype=float)
+    e_s = y_true - y_small
+    e_l = y_true - y_large
+    f_hat = e_s ** 2 - (e_l ** 2 - (y_small - y_large) ** 2)
+    T = len(f_hat)
+    mean_f = f_hat.mean()
+    var_f = np.var(f_hat, ddof=1) / T
+    if var_f <= 0:
+        return float('nan'), float('nan')
+    cw = mean_f / np.sqrt(var_f)
+    # One-sided: large model better when CW > 0.
+    p_value = 1 - norm.cdf(cw)
+    return float(cw), float(p_value)
+
+
 def _load_pred(name: str) -> pd.DataFrame:
     path = os.path.join(PREDICTIONS_DIR, f"{name}.csv")
     if not os.path.exists(path):
@@ -90,6 +120,16 @@ def _pair_errors(a: str, b: str) -> Tuple[np.ndarray, np.ndarray, int]:
     return e1, e2, len(idx)
 
 
+def _pair_predictions(a: str, b: str):
+    da, db = _load_pred(a), _load_pred(b)
+    idx = da.index.intersection(db.index)
+    y_true = da.loc[idx, 'y_true'].values
+    return (y_true,
+            da.loc[idx, 'y_pred'].values,
+            db.loc[idx, 'y_pred'].values,
+            len(idx))
+
+
 def run_dm_all(output_csv: str = None):
     output_csv = output_csv or os.path.join(OUTPUT_DIR, 'dm_test_results.csv')
 
@@ -98,12 +138,15 @@ def run_dm_all(output_csv: str = None):
     for base, enh in BASELINE_ENHANCED_PAIRS:
         try:
             e1, e2, n = _pair_errors(base, enh)
+            y_true, y_s, y_l, _ = _pair_predictions(base, enh)
         except FileNotFoundError as ex:
             print(f"[skip] {base} vs {enh}: {ex}")
             continue
         dm, p = dm_test(e1, e2)
+        cw, cw_p = clark_west_test(y_true, y_s, y_l)
         rows.append({'model_1': base, 'model_2': enh, 'n': n,
                      'dm_statistic': dm, 'p_value': p,
+                     'cw_statistic': cw, 'cw_p_value': cw_p,
                      'better_model': enh if dm > 0 else base})
 
     # Cross-pair: each enhanced-only model vs its most natural counterpart (random_forest_baseline).
@@ -115,8 +158,14 @@ def run_dm_all(output_csv: str = None):
                 print(f"[skip] {base} vs {extra}: {ex}")
                 continue
             dm, p = dm_test(e1, e2)
+            try:
+                y_true, y_s, y_l, _ = _pair_predictions(base, extra)
+                cw, cw_p = clark_west_test(y_true, y_s, y_l)
+            except Exception:
+                cw, cw_p = float('nan'), float('nan')
             rows.append({'model_1': base, 'model_2': extra, 'n': n,
                          'dm_statistic': dm, 'p_value': p,
+                         'cw_statistic': cw, 'cw_p_value': cw_p,
                          'better_model': extra if dm > 0 else base})
 
     df = pd.DataFrame(rows)
