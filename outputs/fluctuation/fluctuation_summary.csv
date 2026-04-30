@@ -1,0 +1,7 @@
+baseline,enhanced,T,m,mu,mu_nearest,max_abs_F,cv_5pct,cv_10pct,reject_5pct,reject_10pct,date_at_max
+lasso_baseline,lasso_enhanced,56,18,0.32142857142857145,0.3,2.2319690607417457,2.882,2.587,False,False,2021-12-01
+elastic_net_baseline,elastic_net_enhanced,56,18,0.32142857142857145,0.3,2.055717034717226,2.882,2.587,False,False,2021-12-01
+random_forest_baseline,random_forest_enhanced,56,18,0.32142857142857145,0.3,1.4770053230776836,2.882,2.587,False,False,2022-09-01
+random_forest_baseline,random_forest_publag2m,56,18,0.32142857142857145,0.3,1.148483775937987,2.882,2.587,False,False,2022-12-01
+pca_baseline,pca_enhanced,56,18,0.32142857142857145,0.3,3.3273330812045137,2.882,2.587,True,True,2022-06-01
+comb_baseline,comb_enhanced,56,18,0.32142857142857145,0.3,1.460912974452971,2.882,2.587,False,False,2022-06-01

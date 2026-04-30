@@ -1,0 +1,9 @@
+feature_1,feature_2,mean_abs_interaction,type
+Fiscal_Exp_Growth_lag1,TXT_Ambiguity_lag1,0.028204750269651413,nlp_x_macro
+M2_Growth_lag6,TXT_Confidence_lag1,0.005840001627802849,nlp_x_macro
+M2_Growth_lag6,DRV_External_lag1,0.005827670451253653,nlp_x_macro
+Fiscal_Exp_Growth_lag1,POL_Tone_lag12,0.005728904157876968,nlp_x_macro
+Core_CPI_lag1,DRV_Monetary_lag3,0.0047111185267567635,nlp_x_macro
+PPI_lag3,TXT_Ambiguity_lag1,0.00435588089749217,nlp_x_macro
+EPUCHINA_lag3,DRV_Demand_lag12,0.003998152911663055,nlp_x_macro
+M2_Growth_lag2,DRV_External_lag2,0.0037865149788558483,nlp_x_macro
