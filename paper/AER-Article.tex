@@ -22,7 +22,9 @@
   Evidence from LLM Extraction of People's Bank of China \\
   Monetary Policy Reports}
 \shortTitle{Text-to-Inflation}
-\author{Mochiao Chen\thanks{Chen: \href{mailto:mochiao.chen@gmail.com}{mochiao.chen@gmail.com}.
+\author{Mochiao Chen\thanks{Chen: China School of Banking and Finance,
+University of International Business and Economics, Beijing, China
+(\href{mailto:mochiao.chen@gmail.com}{mochiao.chen@gmail.com}).
 We thank seminar participants for helpful comments. All errors are our own.
 Replication code and data are available at
 \href{https://github.com/MochiaoChen/Text2Inflation}{github.com/MochiaoChen/Text2Inflation}.
@@ -514,13 +516,13 @@ Baseline & Enhanced & DM & $p$ & $n^{*}$ (80\%) & Status \\
 LASSO       & LASSO       & \phantom{$-$}0.381 & 0.705 & 3{,}028 & under-powered \\
 Elastic Net & Elastic Net & $-0.075$ & 0.940 & 77{,}879 & under-powered \\
 Random Forest & Random Forest & \phantom{$-$}1.178 & 0.244 & \phantom{0{,}}317 & under-powered \\
-PCA+OLS     & PCA+OLS     & $-1.516$ & 0.135 & \phantom{0{,}}191 & sig.\ worse (one-sided) \\
+PCA+OLS     & PCA+OLS     & $-1.516$ & 0.135 & \phantom{0{,}}191 & sig.\ worse$^{*}$ (one-sided) \\
 PLS         & PLS         & $-2.480$ & 0.016 & \phantom{00{,}0}71 & sig.\ worse$^{**}$ \\
 Combination & Combination & $-0.327$ & 0.745 & 4{,}109 & under-powered \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}
-$^{**}$ significant at 5 percent. Positive DM statistic means baseline's
+$^{*}$ significant at 10 percent (one-sided), $^{**}$ significant at 5 percent. Positive DM statistic means baseline's
 squared error exceeds enhanced's. Power calculation: required $n$ to detect
 the observed mean and variance of the squared-loss differential at
 $\alpha=0.05$, two-sided, 80~percent power. The 56-observation test window
@@ -588,7 +590,7 @@ time).
 \toprule
 Regime & $n$ & RMSE base & RMSE enh & $\Delta$ RMSE \\
 \midrule
-Full sample            & 56 & 0.518 & 0.500 & $+3.4\%$ \\
+Full sample            & 56 & 0.517 & 0.500 & $+3.4\%$ \\
 \addlinespace
 Inflationary ($y_t > 0$)   & 27 & 0.456 & 0.459 & $-0.8\%$ \\
 \textbf{Deflationary} ($y_t \le 0$) & \textbf{29} & \textbf{0.570} & \textbf{0.535} & $\boldsymbol{+6.0\%}$ \\
